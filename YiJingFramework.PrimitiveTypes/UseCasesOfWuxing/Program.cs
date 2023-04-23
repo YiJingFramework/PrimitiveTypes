@@ -2,7 +2,7 @@
 
 #pragma warning disable IDE0071
 
-#region to get or convert Wuxing
+#region to get or convert Wuxings
 Wuxing wood = Wuxing.Wood;
 
 _ = Wuxing.TryParse(" metal \t\n", out Wuxing metal);

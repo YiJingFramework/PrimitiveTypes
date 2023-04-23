@@ -6,8 +6,8 @@ using YiJingFramework.PrimitiveTypes.Serialization;
 namespace YiJingFramework.PrimitiveTypes
 {
     /// <summary>
-    /// 阴阳属性。
-    /// The yin-yang attribute.
+    /// 阴阳。
+    /// Yinyang.
     /// </summary>
     [JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Yinyang>))]
     public readonly struct Yinyang :

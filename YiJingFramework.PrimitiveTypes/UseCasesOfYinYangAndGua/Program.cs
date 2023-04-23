@@ -4,7 +4,7 @@ using YiJingFramework.PrimitiveTypes;
 #pragma warning disable IDE0059
 #pragma warning disable IDE0071
 
-#region to get or convert yin-yangs
+#region to get or convert Yinyangs
 Yinyang yin = Yinyang.Yin;
 Yinyang yang = new Yinyang(isYang: true);
 Console.WriteLine($"{yin.ToString()}-{yang}-{yin.ToString("C")}-{yang:C}!");
@@ -26,8 +26,8 @@ Console.WriteLine();
 // Output: 2 -> 1
 #endregion
 
-#region to do calculation on yin-yangs
-// Calculations on yin-yangs works as booleans (yang: true, yin: false).
+#region to do calculation on Yinyangs
+// Calculations on Yinyangs works as booleans (yang: true, yin: false).
 Console.WriteLine($"yin&yang: {yin & yang} yin|yang: {yin | yang} yin^yang: {yin ^ yang} !yin: {!yin}");
 // Output: yin&yang: Yin yin|yang: Yang yin^yang: Yang !yin: Yang
 #endregion
