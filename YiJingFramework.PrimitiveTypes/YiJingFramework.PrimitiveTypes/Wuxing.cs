@@ -249,7 +249,7 @@ public readonly struct Wuxing :
     }
     #endregion
 
-    #region generating and overcoming
+    #region calculating
     /// <inheritdoc/>
     public static Wuxing operator +(Wuxing left, int right)
     {
@@ -262,39 +262,6 @@ public readonly struct Wuxing :
     {
         right = -(right % 5) + 5;
         return new Wuxing(left.int32Value + right);
-    }
-
-    /// <summary>
-    /// 获取与另一五行之间的关系。
-    /// Get the relationship with another Wuxing.
-    /// </summary>
-    /// <param name="another">
-    /// 另一五行。
-    /// The another Wuxing.
-    /// </param>
-    /// <returns>
-    /// 关系。
-    /// The relationship.
-    /// </returns>
-    public WuxingRelationship GetRelationship(Wuxing another)
-    {
-        return (WuxingRelationship)((another.int32Value - this.int32Value + 5) % 5);
-    }
-    /// <summary>
-    /// 通过五行关系获取另一五行。
-    /// Get another Wuxing with the relationship.
-    /// </summary>
-    /// <param name="relation">
-    /// 关系。
-    /// The relationship.
-    /// </param>
-    /// <returns>
-    /// 另一五行。
-    /// The another Wuxing.
-    /// </returns>
-    public Wuxing GetWuxing(WuxingRelationship relation)
-    {
-        return this + (int)relation;
     }
     #endregion
 

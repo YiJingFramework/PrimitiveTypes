@@ -135,55 +135,15 @@ public class WuxingTests
         }
     }
     [TestMethod()]
-    public void GeneratingAndOvercomingTest()
+    public void CalculationTest()
     {
-        Assert.AreEqual(WuxingRelationship.GeneratedByMe,
-            Wuxing.Wood.GetRelationship(Wuxing.Fire));
-        Assert.AreEqual(WuxingRelationship.GeneratedByMe,
-            Wuxing.Fire.GetRelationship(Wuxing.Earth));
-        Assert.AreEqual(WuxingRelationship.GeneratedByMe,
-            Wuxing.Earth.GetRelationship(Wuxing.Metal));
-        Assert.AreEqual(WuxingRelationship.GeneratedByMe,
-            Wuxing.Metal.GetRelationship(Wuxing.Water));
-        Assert.AreEqual(WuxingRelationship.GeneratedByMe,
-            Wuxing.Water.GetRelationship(Wuxing.Wood));
-
-        Assert.AreEqual(WuxingRelationship.GeneratingMe,
-            Wuxing.Wood.GetRelationship(Wuxing.Water));
-        Assert.AreEqual(WuxingRelationship.GeneratingMe,
-            Wuxing.Water.GetRelationship(Wuxing.Metal));
-        Assert.AreEqual(WuxingRelationship.GeneratingMe,
-            Wuxing.Metal.GetRelationship(Wuxing.Earth));
-        Assert.AreEqual(WuxingRelationship.GeneratingMe,
-            Wuxing.Earth.GetRelationship(Wuxing.Fire));
-        Assert.AreEqual(WuxingRelationship.GeneratingMe,
-            Wuxing.Fire.GetRelationship(Wuxing.Wood));
-
         for (int i = 0; i < 5; i++)
         {
             var woodP = (Wuxing)i;
-            var fireP = woodP.GetWuxing(WuxingRelationship.GeneratedByMe);
-            var earthP = fireP.GetWuxing(WuxingRelationship.GeneratedByMe);
-            var metalP = earthP.GetWuxing(WuxingRelationship.GeneratedByMe);
-            var waterP = metalP.GetWuxing(WuxingRelationship.GeneratedByMe);
-
-            Assert.AreEqual(WuxingRelationship.GeneratedByMe,
-                woodP.GetRelationship(fireP));
-            Assert.AreEqual(WuxingRelationship.OvercameByMe,
-                woodP.GetRelationship(earthP));
-            Assert.AreEqual(WuxingRelationship.OvercomingMe,
-                woodP.GetRelationship(metalP));
-            Assert.AreEqual(WuxingRelationship.GeneratingMe,
-                woodP.GetRelationship(waterP));
-
-            Assert.AreEqual(fireP,
-                woodP.GetWuxing(WuxingRelationship.GeneratedByMe));
-            Assert.AreEqual(earthP,
-                woodP.GetWuxing(WuxingRelationship.OvercameByMe));
-            Assert.AreEqual(metalP,
-                woodP.GetWuxing(WuxingRelationship.OvercomingMe));
-            Assert.AreEqual(waterP,
-                woodP.GetWuxing(WuxingRelationship.GeneratingMe));
+            var fireP = (Wuxing)(i + 1);
+            var earthP = (Wuxing)(i + 2);
+            var metalP = (Wuxing)(i + 3);
+            var waterP = (Wuxing)(i + 4);
 
             Assert.AreEqual(woodP, woodP + 0);
             Assert.AreEqual(fireP, woodP + 1);

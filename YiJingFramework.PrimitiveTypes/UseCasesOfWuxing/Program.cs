@@ -1,12 +1,13 @@
 ﻿using YiJingFramework.PrimitiveTypes;
 
+#pragma warning disable IDE0059
 #pragma warning disable IDE0071
 
 #region to get or convert Wuxings
 Wuxing wood = Wuxing.Wood;
 
 _ = Wuxing.TryParse(" metal \t\n", out Wuxing metal);
-_ = Wuxing.TryParse(" 木 \t\n", out _);
+_ = Wuxing.TryParse(" 木 \t\n", out wood);
 // case-insensitive and allows white spaces preceding and trailing.
 
 Wuxing fire = (Wuxing)6;
@@ -28,12 +29,4 @@ Console.WriteLine($"{fire.ToString("C")}克{metal:C}");
 Console.WriteLine();
 // Output: Fire 1 OVERCOMES Metal 3!
 // 火克金
-#endregion
-
-#region to use the relationship between Wuxings
-Wuxing water = wood.GetWuxing(WuxingRelationship.GeneratingMe);
-// water generates wood.
-Console.WriteLine($"fire to {water}: {water.GetRelationship(fire)}");
-// water overcomes fire
-// Output: fire to Water: OvercameByMe
 #endregion
