@@ -1,6 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
 using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests

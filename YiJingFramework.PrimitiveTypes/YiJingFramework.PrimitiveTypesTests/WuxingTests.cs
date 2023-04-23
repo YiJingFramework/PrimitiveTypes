@@ -1,10 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YiJingFramework.PrimitiveTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests
@@ -212,7 +206,7 @@ namespace YiJingFramework.PrimitiveTypes.Tests
         [TestMethod()]
         public void SerializationTest()
         {
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var wuxing = (Wuxing)i;
                 var s = JsonSerializer.Serialize(wuxing);

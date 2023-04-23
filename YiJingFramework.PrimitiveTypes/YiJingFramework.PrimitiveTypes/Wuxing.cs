@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using YiJingFramework.PrimitiveTypes.Serialization;
 
@@ -17,7 +15,7 @@ namespace YiJingFramework.PrimitiveTypes
         IComparable<Wuxing>, IEquatable<Wuxing>, IFormattable,
         IParsable<Wuxing>, IEqualityOperators<Wuxing, Wuxing, bool>,
         IStringConvertibleForJson<Wuxing>,
-        IAdditionOperators<Wuxing, int, Wuxing>, 
+        IAdditionOperators<Wuxing, int, Wuxing>,
         ISubtractionOperators<Wuxing, int, Wuxing>
     {
         private readonly int int32Value;

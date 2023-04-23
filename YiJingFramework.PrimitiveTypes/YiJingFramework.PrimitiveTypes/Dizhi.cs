@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Text.Json.Serialization;
 using YiJingFramework.PrimitiveTypes.Serialization;
@@ -81,8 +79,7 @@ namespace YiJingFramework.PrimitiveTypes
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.Index switch
-            {
+            return this.Index switch {
                 1 => "Zi",
                 2 => "Chou",
                 3 => "Yin",
@@ -125,11 +122,9 @@ namespace YiJingFramework.PrimitiveTypes
             if (string.IsNullOrEmpty(format))
                 format = "G";
 
-            return format.ToUpperInvariant() switch
-            {
+            return format.ToUpperInvariant() switch {
                 "G" => this.ToString(),
-                "C" => this.Index switch
-                {
+                "C" => this.Index switch {
                     1 => "子",
                     2 => "丑",
                     3 => "寅",
