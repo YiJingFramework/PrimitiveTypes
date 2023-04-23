@@ -9,12 +9,12 @@ namespace YiJingFramework.PrimitiveTypes
     /// 阴阳属性。
     /// The yin-yang attribute.
     /// </summary>
-    [JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<YinYang>))]
-    public readonly struct YinYang :
-        IComparable<YinYang>, IEquatable<YinYang>, IFormattable,
-        IParsable<YinYang>, IEqualityOperators<YinYang, YinYang, bool>,
-        IBitwiseOperators<YinYang, YinYang, YinYang>,
-        IStringConvertibleForJson<YinYang>
+    [JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Yinyang>))]
+    public readonly struct Yinyang :
+        IComparable<Yinyang>, IEquatable<Yinyang>, IFormattable,
+        IParsable<Yinyang>, IEqualityOperators<Yinyang, Yinyang, bool>,
+        IBitwiseOperators<Yinyang, Yinyang, Yinyang>,
+        IStringConvertibleForJson<Yinyang>
     {
         #region creating
         /// <summary>
@@ -25,7 +25,7 @@ namespace YiJingFramework.PrimitiveTypes
         /// 若值为 <c>true</c> ，则此实例将表示阳；否则表示阴。
         /// If the value is <c>true</c>, the instance will represents yang; otherwise, yin.
         /// </param>
-        public YinYang(bool isYang)
+        public Yinyang(bool isYang)
         {
             this.IsYang = isYang;
         }
@@ -34,42 +34,42 @@ namespace YiJingFramework.PrimitiveTypes
         /// 阳。
         /// Yang.
         /// </summary>
-        public static YinYang Yang => new YinYang(true);
+        public static Yinyang Yang => new Yinyang(true);
 
         /// <summary>
         /// 阴。
         /// Yin.
         /// </summary>
-        public static YinYang Yin => default; // => new YinYang(false);
+        public static Yinyang Yin => default; // => new Yinyang(false);
         #endregion
 
         #region calculating
         /// <inheritdoc/>
-        public static YinYang operator &(YinYang left, YinYang right)
+        public static Yinyang operator &(Yinyang left, Yinyang right)
         {
-            return new YinYang(left.IsYang & right.IsYang);
+            return new Yinyang(left.IsYang & right.IsYang);
         }
 
         /// <inheritdoc/>
-        public static YinYang operator |(YinYang left, YinYang right)
+        public static Yinyang operator |(Yinyang left, Yinyang right)
         {
-            return new YinYang(left.IsYang | right.IsYang);
+            return new Yinyang(left.IsYang | right.IsYang);
         }
 
         /// <inheritdoc/>
-        public static YinYang operator ^(YinYang left, YinYang right)
+        public static Yinyang operator ^(Yinyang left, Yinyang right)
         {
-            return new YinYang(left.IsYang ^ right.IsYang);
+            return new Yinyang(left.IsYang ^ right.IsYang);
         }
 
         /// <inheritdoc/>
-        public static YinYang operator !(YinYang yinYang)
+        public static Yinyang operator !(Yinyang yinYang)
         {
-            return new YinYang(!yinYang.IsYang);
+            return new Yinyang(!yinYang.IsYang);
         }
 
         /// <inheritdoc/>
-        static YinYang IBitwiseOperators<YinYang, YinYang, YinYang>.operator ~(YinYang yinYang)
+        static Yinyang IBitwiseOperators<Yinyang, Yinyang, Yinyang>.operator ~(Yinyang yinYang)
         {
             return !yinYang;
         }
@@ -141,7 +141,7 @@ namespace YiJingFramework.PrimitiveTypes
         /// 传入字符串的格式不受支持。
         /// The input string was not in the supported format.
         /// </exception>
-        public static YinYang Parse(string s)
+        public static Yinyang Parse(string s)
         {
             ArgumentNullException.ThrowIfNull(s);
 
@@ -149,7 +149,7 @@ namespace YiJingFramework.PrimitiveTypes
                 "阳" or "yang" => Yang,
                 "阴" or "yin" => Yin,
                 _ => throw new FormatException(
-                    $"Cannot parse \"{s}\" as {nameof(YinYang)}."),
+                    $"Cannot parse \"{s}\" as {nameof(Yinyang)}."),
             };
         }
 
@@ -171,7 +171,7 @@ namespace YiJingFramework.PrimitiveTypes
         /// </returns>
         public static bool TryParse(
             [NotNullWhen(true)] string? s,
-            [MaybeNullWhen(false)] out YinYang result)
+            [MaybeNullWhen(false)] out Yinyang result)
         {
             switch (s?.Trim()?.ToLowerInvariant())
             {
@@ -189,53 +189,53 @@ namespace YiJingFramework.PrimitiveTypes
             }
         }
 
-        static YinYang IParsable<YinYang>.Parse(string s, IFormatProvider? provider)
+        static Yinyang IParsable<Yinyang>.Parse(string s, IFormatProvider? provider)
         {
             return Parse(s);
         }
 
-        static bool IParsable<YinYang>.TryParse(
+        static bool IParsable<Yinyang>.TryParse(
             [NotNullWhen(true)] string? s,
             IFormatProvider? provider,
-            [MaybeNullWhen(false)] out YinYang result)
+            [MaybeNullWhen(false)] out Yinyang result)
         {
             return TryParse(s, out result);
         }
 
         /// <inheritdoc/>
-        public static explicit operator bool(YinYang yinYang)
+        public static explicit operator bool(Yinyang yinYang)
         {
             return yinYang.IsYang;
         }
 
         /// <inheritdoc/>
-        public static explicit operator YinYang(bool value)
+        public static explicit operator Yinyang(bool value)
         {
-            return new YinYang(value);
+            return new Yinyang(value);
         }
 
         /// <inheritdoc/>
-        public static explicit operator int(YinYang yinYang)
+        public static explicit operator int(Yinyang yinYang)
         {
             return Convert.ToInt32(yinYang.IsYang);
         }
 
         /// <inheritdoc/>
-        public static explicit operator YinYang(int value)
+        public static explicit operator Yinyang(int value)
         {
-            return new YinYang(Convert.ToBoolean(value));
+            return new Yinyang(Convert.ToBoolean(value));
         }
         #endregion
 
         #region comparing
         /// <inheritdoc/>
-        public int CompareTo(YinYang other)
+        public int CompareTo(Yinyang other)
         {
             return this.IsYang.CompareTo(other.IsYang);
         }
 
         /// <inheritdoc/>
-        public bool Equals(YinYang other)
+        public bool Equals(Yinyang other)
         {
             return this.IsYang.Equals(other.IsYang);
         }
@@ -243,7 +243,7 @@ namespace YiJingFramework.PrimitiveTypes
         /// <inheritdoc/>
         public override bool Equals(object? obj)
         {
-            if (obj is not YinYang other)
+            if (obj is not Yinyang other)
                 return false;
             return this.IsYang.Equals(other.IsYang);
         }
@@ -255,25 +255,25 @@ namespace YiJingFramework.PrimitiveTypes
         }
 
         /// <inheritdoc/>
-        public static bool operator ==(YinYang left, YinYang right)
+        public static bool operator ==(Yinyang left, Yinyang right)
         {
             return left.IsYang == right.IsYang;
         }
 
         /// <inheritdoc/>
-        public static bool operator !=(YinYang left, YinYang right)
+        public static bool operator !=(Yinyang left, Yinyang right)
         {
             return left.IsYang != right.IsYang;
         }
         #endregion
 
         #region serializing
-        static bool IStringConvertibleForJson<YinYang>.FromStringForJson(string s, out YinYang result)
+        static bool IStringConvertibleForJson<Yinyang>.FromStringForJson(string s, out Yinyang result)
         {
             return TryParse(s, out result);
         }
 
-        string IStringConvertibleForJson<YinYang>.ToStringForJson()
+        string IStringConvertibleForJson<Yinyang>.ToStringForJson()
         {
             return this.ToString();
         }

@@ -5,23 +5,23 @@ using YiJingFramework.PrimitiveTypes;
 #pragma warning disable IDE0071
 
 #region to get or convert yin-yangs
-YinYang yin = YinYang.Yin;
-YinYang yang = new YinYang(isYang: true);
+Yinyang yin = Yinyang.Yin;
+Yinyang yang = new Yinyang(isYang: true);
 Console.WriteLine($"{yin.ToString()}-{yang}-{yin.ToString("C")}-{yang:C}!");
 Console.WriteLine();
 // Output: Yin-Yang-阴-阳!
 
-yang = YinYang.Parse("                 阳     ");
-_ = YinYang.TryParse(" yANG \t\n", out yang);
+yang = Yinyang.Parse("                 阳     ");
+_ = Yinyang.TryParse(" yANG \t\n", out yang);
 // case-insensitive and allows white spaces preceding and trailing.
 
-yin = (YinYang)false;
+yin = (Yinyang)false;
 
-Console.WriteLine($"-1 0 1 2: {(YinYang)(-1)} {(YinYang)0} {(YinYang)1} {(YinYang)2}");
+Console.WriteLine($"-1 0 1 2: {(Yinyang)(-1)} {(Yinyang)0} {(Yinyang)1} {(Yinyang)2}");
 Console.WriteLine();
 // Output: -1 0 1 2: Yang Yin Yang Yang
 
-Console.WriteLine($"2 -> {(int)((YinYang)2)}");
+Console.WriteLine($"2 -> {(int)((Yinyang)2)}");
 Console.WriteLine();
 // Output: 2 -> 1
 #endregion
@@ -32,19 +32,19 @@ Console.WriteLine($"yin&yang: {yin & yang} yin|yang: {yin | yang} yin^yang: {yin
 // Output: yin&yang: Yin yin|yang: Yang yin^yang: Yang !yin: Yang
 #endregion
 
-#region to create guas
-var duiTrigram = new Gua(YinYang.Yang, YinYang.Yang, YinYang.Yin); // 兑
+#region to create Guas
+var duiTrigram = new Gua(Yinyang.Yang, Yinyang.Yang, Yinyang.Yin); // 兑
 
-var lineArray = new YinYang[] { YinYang.Yin, YinYang.Yang };
+var lineArray = new Yinyang[] { Yinyang.Yin, Yinyang.Yang };
 var shaoYang = new Gua(lineArray); // 少阳
 
-static IEnumerable<YinYang> GetRandomLines()
+static IEnumerable<Yinyang> GetRandomLines()
 {
     Random random = new Random();
     for (; ; )
-        yield return (YinYang)random.Next(0, 2); // 0, 1 -> yin, yang
+        yield return (Yinyang)random.Next(0, 2); // 0, 1 -> yin, yang
 }
-var randomP = new Gua(GetRandomLines().Take(5)); // A painting with five lines.
+var randomP = new Gua(GetRandomLines().Take(5)); // A Gua with five lines.
 
 // to create by strings, see 'convert to string and parse'
 #endregion
@@ -76,22 +76,23 @@ Console.WriteLine(shaoYang);
 Console.WriteLine();
 // Output: 01
 
-var r = Gua.TryParse("111011111", out var myPainting);
+var r = Gua.TryParse("111011111", out var myGua);
 // 111011111 -> yang-yang-yang-yin-yang-yang-yang-yang-yang
 Debug.Assert(r is true);
-Debug.Assert(myPainting is not null);
-Console.WriteLine(myPainting[3]);
+Debug.Assert(myGua is not null);
+Console.WriteLine(myGua[3]);
 Console.WriteLine();
 // Output: Yin
 
-myPainting = Gua.Parse(myPainting.ToString()); // still the same
+myGua = Gua.Parse(myGua.ToString()); // still the same
 #endregion
 
 #region to convert to bytes and back
 // For this part,
 // you don't have to understand what the result actually is.
 // All you need to know is that it can be converted to the bytes without any loss,
-// so you can choose to save or transmit your paintings with these methods.
+// so you can choose to save or transmit your Guas with these methods.
+// Actually we don't suggest to use this unless it's in size sensitive cases.
 
 byte[] bytes = duiTrigram.ToBytes();
 //
@@ -108,7 +109,7 @@ Console.WriteLine(Convert.ToString(bytes[0], 2));
 Console.WriteLine();
 // Output: 1011
 
-bytes = myPainting.ToBytes();
+bytes = myGua.ToBytes();
 //
 //    yang-yang-yang-yin - yang-yang-yang-yang - yang
 // -> 1,1,1,0, 1,1,1,1, 1
@@ -124,16 +125,16 @@ Console.WriteLine(Convert.ToString(bytes[1], 2));
 Console.WriteLine();
 // Output: 11110111 11
 
-var myPainting2 = Gua.FromBytes(bytes);
-Console.WriteLine(myPainting2.Equals(myPainting));
+var myGua2 = Gua.FromBytes(bytes);
+Console.WriteLine(myGua2.Equals(myGua));
 Console.WriteLine();
 // Output: True
 #endregion
 
-#region to compare two paintings
-Console.WriteLine($"{myPainting2.Equals(myPainting)} " +
-    $"{myPainting2 == myPainting} " +
-    $"{myPainting2.CompareTo(myPainting)} " +
-    $"{myPainting2 != myPainting}");
+#region to compare two Guas
+Console.WriteLine($"{myGua2.Equals(myGua)} " +
+    $"{myGua2 == myGua} " +
+    $"{myGua2.CompareTo(myGua)} " +
+    $"{myGua2 != myGua}");
 // Output: True True 0 False
 #endregion

@@ -11,24 +11,24 @@ namespace YiJingFramework.PrimitiveTypes.Tests
         {
             return new Gua();
         }
-        private static YinYang[] GetLinesOfGua1()
+        private static Yinyang[] GetLinesOfGua1()
         {
-            return new YinYang[] { YinYang.Yang, YinYang.Yang, YinYang.Yin };
+            return new Yinyang[] { Yinyang.Yang, Yinyang.Yang, Yinyang.Yin };
         }
         private static Gua GetGua1()
         {
-            var p1 = new Gua(YinYang.Yang, YinYang.Yang, YinYang.Yin);
+            var p1 = new Gua(Yinyang.Yang, Yinyang.Yang, Yinyang.Yin);
             var pp1 = new Gua(GetLinesOfGua1());
             Assert.IsTrue(p1.SequenceEqual(pp1));
             return pp1;
         }
 
-        private static IEnumerable<YinYang> GetLinesOfGua2()
+        private static IEnumerable<Yinyang> GetLinesOfGua2()
         {
-            yield return YinYang.Yang;
-            yield return YinYang.Yang;
-            yield return YinYang.Yin;
-            yield return YinYang.Yang;
+            yield return Yinyang.Yang;
+            yield return Yinyang.Yang;
+            yield return Yinyang.Yin;
+            yield return Yinyang.Yang;
         }
         private static Gua GetGua2()
         {
@@ -73,18 +73,18 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             var p3 = GetGua2();
             Assert.AreEqual(0, p2.CompareTo(p3));
 
-            var p4 = new Gua(YinYang.Yin, YinYang.Yin, YinYang.Yang);
-            var p5 = new Gua(YinYang.Yang, YinYang.Yang, YinYang.Yang);
+            var p4 = new Gua(Yinyang.Yin, Yinyang.Yin, Yinyang.Yang);
+            var p5 = new Gua(Yinyang.Yang, Yinyang.Yang, Yinyang.Yang);
             Assert.AreEqual(-1, p4.CompareTo(p5));
             Assert.AreEqual(1, p5.CompareTo(p4));
 
-            var p6 = new Gua(YinYang.Yang, YinYang.Yang, YinYang.Yin);
-            var p7 = new Gua(YinYang.Yang, YinYang.Yang, YinYang.Yang);
+            var p6 = new Gua(Yinyang.Yang, Yinyang.Yang, Yinyang.Yin);
+            var p7 = new Gua(Yinyang.Yang, Yinyang.Yang, Yinyang.Yang);
             Assert.AreEqual(-1, p6.CompareTo(p7));
             Assert.AreEqual(1, p7.CompareTo(p6));
 
-            p6 = new Gua(YinYang.Yang, YinYang.Yin, YinYang.Yang, YinYang.Yang);
-            p7 = new Gua(YinYang.Yin, YinYang.Yang, YinYang.Yang, YinYang.Yang);
+            p6 = new Gua(Yinyang.Yang, Yinyang.Yin, Yinyang.Yang, Yinyang.Yang);
+            p7 = new Gua(Yinyang.Yin, Yinyang.Yang, Yinyang.Yang, Yinyang.Yang);
             Assert.AreEqual(-1, p6.CompareTo(p7));
             Assert.AreEqual(1, p7.CompareTo(p6));
         }
@@ -108,15 +108,15 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             for (int i = 0; i < 20;)
             {
                 var c = random.Next(5, 10);
-                List<YinYang> lines1 = new();
+                List<Yinyang> lines1 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines1.Add((YinYang)random.Next(0, 2));
+                    lines1.Add((Yinyang)random.Next(0, 2));
                 }
-                List<YinYang> lines2 = new();
+                List<Yinyang> lines2 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines2.Add((YinYang)random.Next(0, 2));
+                    lines2.Add((Yinyang)random.Next(0, 2));
                 }
                 if (lines1.SequenceEqual(lines2))
                 {
@@ -138,15 +138,15 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             for (int i = 0; i < 20;)
             {
                 var c = random.Next(5, 10);
-                List<YinYang> lines1 = new();
+                List<Yinyang> lines1 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines1.Add((YinYang)random.Next(0, 2));
+                    lines1.Add((Yinyang)random.Next(0, 2));
                 }
-                List<YinYang> lines2 = new();
+                List<Yinyang> lines2 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines2.Add((YinYang)random.Next(0, 2));
+                    lines2.Add((Yinyang)random.Next(0, 2));
                 }
                 if (lines1.SequenceEqual(lines2))
                 {
@@ -183,9 +183,9 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             for (int i = 0; i < 20; i++)
             {
                 var c = random.Next(0, 100);
-                List<YinYang> lines1 = new();
+                List<Yinyang> lines1 = new();
                 for (int j = 0; j < c; j++)
-                    lines1.Add((YinYang)random.Next(0, 2));
+                    lines1.Add((Yinyang)random.Next(0, 2));
                 var gua = new Gua(lines1);
                 Assert.IsTrue(Gua.Parse(gua.ToString()).SequenceEqual(gua));
 
@@ -207,9 +207,9 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             for (int i = 0; i < 20; i++)
             {
                 var c = random.Next(0, 100);
-                List<YinYang> lines1 = new();
+                List<Yinyang> lines1 = new();
                 for (int j = 0; j < c; j++)
-                    lines1.Add((YinYang)random.Next(0, 2));
+                    lines1.Add((Yinyang)random.Next(0, 2));
                 var gua = new Gua(lines1);
                 Assert.IsTrue(Gua.TryParse(gua.ToString(), out var rr));
                 Assert.IsTrue(rr.SequenceEqual(gua));
@@ -245,9 +245,9 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             for (int i = 0; i < 20; i++)
             {
                 var c = random.Next(0, 100);
-                List<YinYang> lines1 = new();
+                List<Yinyang> lines1 = new();
                 for (int j = 0; j < c; j++)
-                    lines1.Add((YinYang)random.Next(0, 2));
+                    lines1.Add((Yinyang)random.Next(0, 2));
                 var gua = new Gua(lines1);
                 Assert.IsTrue(Gua.FromBytes(gua.ToBytes())
                     .SequenceEqual(gua));
@@ -262,9 +262,9 @@ namespace YiJingFramework.PrimitiveTypes.Tests
 
             Assert.AreEqual(0, p0.Count);
             Assert.AreEqual(3, p1.Count);
-            Assert.AreEqual(YinYang.Yang, p1[0]);
-            Assert.AreEqual(YinYang.Yang, p1[1]);
-            Assert.AreEqual(YinYang.Yin, p1[2]);
+            Assert.AreEqual(Yinyang.Yang, p1[0]);
+            Assert.AreEqual(Yinyang.Yang, p1[1]);
+            Assert.AreEqual(Yinyang.Yin, p1[2]);
         }
         [TestMethod()]
         public void OperatorsTest()
@@ -277,15 +277,15 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             for (int i = 0; i < 20;)
             {
                 var c = random.Next(5, 10);
-                List<YinYang> lines1 = new();
+                List<Yinyang> lines1 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines1.Add((YinYang)random.Next(0, 2));
+                    lines1.Add((Yinyang)random.Next(0, 2));
                 }
-                List<YinYang> lines2 = new();
+                List<Yinyang> lines2 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines2.Add((YinYang)random.Next(0, 2));
+                    lines2.Add((Yinyang)random.Next(0, 2));
                 }
                 if (lines1.SequenceEqual(lines2))
                 {
@@ -311,9 +311,9 @@ namespace YiJingFramework.PrimitiveTypes.Tests
             for (int i = 0; i < 20; i++)
             {
                 var c = random.Next(0, 100);
-                List<YinYang> lines1 = new();
+                List<Yinyang> lines1 = new();
                 for (int j = 0; j < c; j++)
-                    lines1.Add((YinYang)random.Next(0, 2));
+                    lines1.Add((Yinyang)random.Next(0, 2));
                 var gua = new Gua(lines1);
 
                 var s = JsonSerializer.Serialize(gua);

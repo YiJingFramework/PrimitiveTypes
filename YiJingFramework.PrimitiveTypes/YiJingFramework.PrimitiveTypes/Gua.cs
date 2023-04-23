@@ -10,16 +10,16 @@ namespace YiJingFramework.PrimitiveTypes
     /// <summary>
     /// 卦。
     /// 爻位置越低，序号越小。
-    /// A gua, which is made up by the yin and yang lines (like trigrams and hexagrams).
+    /// A Gua, which is made up by the yin and yang lines (like trigrams and hexagrams).
     /// The lower a line, the smaller its index.
     /// </summary>
     [JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Gua>))]
     public sealed class Gua :
-        IReadOnlyList<YinYang>, IComparable<Gua>, IEquatable<Gua>,
+        IReadOnlyList<Yinyang>, IComparable<Gua>, IEquatable<Gua>,
         IParsable<Gua>, IEqualityOperators<Gua, Gua, bool>,
         IStringConvertibleForJson<Gua>
     {
-        private readonly YinYang[] lines;
+        private readonly Yinyang[] lines;
         /// <summary>
         /// 创建新实例。
         /// Initializes a new instance.
@@ -32,8 +32,8 @@ namespace YiJingFramework.PrimitiveTypes
         /// <paramref name="lines"/> 是 <c>null</c> 。
         /// <paramref name="lines"/> is <c>null</c>.
         /// </exception>
-        public Gua(params YinYang[] lines)
-            : this((IEnumerable<YinYang>)lines) { }
+        public Gua(params Yinyang[] lines)
+            : this((IEnumerable<Yinyang>)lines) { }
 
         /// <summary>
         /// 创建新实例。
@@ -47,7 +47,7 @@ namespace YiJingFramework.PrimitiveTypes
         /// <paramref name="lines"/> 是 <c>null</c> 。
         /// <paramref name="lines"/> is <c>null</c>.
         /// </exception>
-        public Gua(IEnumerable<YinYang> lines)
+        public Gua(IEnumerable<Yinyang> lines)
         {
             ArgumentNullException.ThrowIfNull(lines);
             this.lines = lines.ToArray();
@@ -70,7 +70,7 @@ namespace YiJingFramework.PrimitiveTypes
         /// <paramref name="index"/> 超出范围。
         /// <paramref name="index"/> is out of range.
         /// </exception>
-        public YinYang this[int index]
+        public Yinyang this[int index]
             => this.lines[index];
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace YiJingFramework.PrimitiveTypes
             => this.lines.Length;
 
         /// <inheritdoc/>
-        public IEnumerator<YinYang> GetEnumerator()
+        public IEnumerator<Yinyang> GetEnumerator()
         {
-            return ((IEnumerable<YinYang>)this.lines).GetEnumerator();
+            return ((IEnumerable<Yinyang>)this.lines).GetEnumerator();
         }
 
         /// <inheritdoc/>
@@ -141,8 +141,8 @@ namespace YiJingFramework.PrimitiveTypes
         /// <inheritdoc/>
         public override bool Equals(object? other)
         {
-            if (other is Gua painting)
-                return this.lines.SequenceEqual(painting.lines);
+            if (other is Gua gua)
+                return this.lines.SequenceEqual(gua.lines);
             return false;
         }
 
@@ -190,12 +190,12 @@ namespace YiJingFramework.PrimitiveTypes
         /// Convert from a string.
         /// </summary>
         /// <param name="s">
-        /// 可以表示此卦画的字符串。
-        /// The string that represents the painting.
+        /// 可以表示此卦的字符串。
+        /// The string that represents the Gua.
         /// </param>
         /// <returns>
-        /// 卦画。
-        /// The painting.
+        /// 卦。
+        /// The Gua.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="s"/> 是 <c>null</c> 。
@@ -209,10 +209,10 @@ namespace YiJingFramework.PrimitiveTypes
         {
             ArgumentNullException.ThrowIfNull(s);
 
-            YinYang yin = YinYang.Yin;
-            YinYang yang = YinYang.Yang;
+            Yinyang yin = Yinyang.Yin;
+            Yinyang yang = Yinyang.Yang;
 
-            List<YinYang> r = new(s.Length);
+            List<Yinyang> r = new(s.Length);
             foreach (var c in s)
             {
                 r.Add(c switch {
@@ -229,12 +229,12 @@ namespace YiJingFramework.PrimitiveTypes
         /// Convert from a string.
         /// </summary>
         /// <param name="s">
-        /// 可以表示此卦画的字符串。
-        /// The string that represents the painting.
+        /// 可以表示此卦的字符串。
+        /// The string that represents the Gua.
         /// </param>
         /// <param name="result">
-        /// 卦画。
-        /// The painting.
+        /// 卦。
+        /// The Gua.
         /// </param>
         /// <returns>
         /// 一个指示转换成功与否的值。
@@ -250,10 +250,10 @@ namespace YiJingFramework.PrimitiveTypes
                 return false;
             }
 
-            YinYang yin = YinYang.Yin;
-            YinYang yang = YinYang.Yang;
+            Yinyang yin = Yinyang.Yin;
+            Yinyang yang = Yinyang.Yang;
 
-            List<YinYang> r = new(s.Length);
+            List<Yinyang> r = new(s.Length);
             foreach (var c in s)
             {
                 switch (c)
@@ -288,9 +288,9 @@ namespace YiJingFramework.PrimitiveTypes
         }
 
         /// <summary>
-        /// 返回一个可以完全表示此卦画的字节数组。
+        /// 返回一个可以完全表示此卦的字节数组。
         /// 可以使用 <seealso cref="FromBytes(byte[])"/> 转换回。
-        /// Returns a byte array that can completely represents the painting.
+        /// Returns a byte array that can completely represents the Gua.
         /// You can use <seealso cref="FromBytes(byte[])"/> to convert it back.
         /// </summary>
         /// <returns>
@@ -314,12 +314,12 @@ namespace YiJingFramework.PrimitiveTypes
         /// Convert from a byte array.
         /// </summary>
         /// <param name="bytes">
-        /// 可以表示此卦画的字节数组。
-        /// The byte array that represents the painting.
+        /// 可以表示此卦的字节数组。
+        /// The byte array that represents the Gua.
         /// </param>
         /// <returns>
-        /// 卦画。
-        /// The painting.
+        /// 卦。
+        /// The Gua.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="bytes"/> 是 <c>null</c> 。
@@ -338,9 +338,9 @@ namespace YiJingFramework.PrimitiveTypes
                     break;
             }
 
-            YinYang[] r = new YinYang[position];
+            Yinyang[] r = new Yinyang[position];
             for (position--; position >= 0; position--)
-                r[position] = new YinYang(bitArray[position]);
+                r[position] = new Yinyang(bitArray[position]);
 
             return new Gua(r);
         }
