@@ -1,4 +1,6 @@
-﻿using YiJingFramework.PrimitiveTypes;
+﻿using System.Diagnostics;
+using System.Text.Json;
+using YiJingFramework.PrimitiveTypes;
 
 #pragma warning disable IDE0059
 #pragma warning disable IDE0071
@@ -14,6 +16,11 @@ Dizhi you = (Dizhi)(-2);
 Dizhi shen = you.Next(-25); // the 25th Dizhi behind You
                             // It will be the same if you use '-1' or '11',
                             // since the Dizhis is a cycle with 12 elements.
+
+var serialized = JsonSerializer.Serialize(you);
+var deserializedYou = JsonSerializer.Deserialize<Dizhi>(serialized);
+Debug.Assert(you == deserializedYou);
+// json (de)serializable
 
 // for Tiangan:
 // ...

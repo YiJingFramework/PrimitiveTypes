@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.Json;
 using YiJingFramework.PrimitiveTypes;
 
 #pragma warning disable IDE0059
@@ -24,6 +25,11 @@ Console.WriteLine();
 Console.WriteLine($"2 -> {(int)((Yinyang)2)}");
 Console.WriteLine();
 // Output: 2 -> 1
+
+var serialized = JsonSerializer.Serialize(yin);
+var deserializedYin = JsonSerializer.Deserialize<Yinyang>(serialized);
+Debug.Assert(yin == deserializedYin);
+// json (de)serializable
 #endregion
 
 #region to do calculation on Yinyangs
@@ -44,12 +50,15 @@ static IEnumerable<Yinyang> GetRandomLines()
     for (; ; )
         yield return (Yinyang)random.Next(0, 2); // 0, 1 -> yin, yang
 }
-var randomP = new Gua(GetRandomLines().Take(5)); // A Gua with five lines.
+var randomGua = new Gua(GetRandomLines().Take(5)); // A Gua with five lines.
 
-// to create by strings, see 'convert to string and parse'
+serialized = JsonSerializer.Serialize(randomGua);
+var deserializedGua = JsonSerializer.Deserialize<Gua>(serialized);
+Debug.Assert(randomGua == deserializedGua);
+// json (de)serializable
 #endregion
 
-#region to use as a list of lines
+#region to use Guas as lists of lines
 Console.WriteLine(duiTrigram.Count);
 Console.WriteLine();
 // Output: 3
@@ -60,14 +69,14 @@ Console.WriteLine();
 Console.WriteLine();
 // Output: YinYang
 
-foreach (var line in randomP)
+foreach (var line in randomGua)
     Console.Write(line);
 Console.WriteLine();
 Console.WriteLine();
 // The output will be 5 random lines.
 #endregion
 
-#region to convert to string and parse
+#region to convert Guas to strings and parse back
 Console.WriteLine(duiTrigram.ToString()); // yang: 1, yin: 0, yang-yang-yin: 110
 Console.WriteLine();
 // Output: 110
@@ -87,12 +96,12 @@ Console.WriteLine();
 myGua = Gua.Parse(myGua.ToString()); // still the same
 #endregion
 
-#region to convert to bytes and back
+#region to convert Guas to byte arrays and convert back
 // For this part,
 // you don't have to understand what the result actually is.
 // All you need to know is that it can be converted to the bytes without any loss,
 // so you can choose to save or transmit your Guas with these methods.
-// Actually we don't suggest to use this unless it's in size sensitive cases.
+// Actually we don't suggest to use this unless in size sensitive cases.
 
 byte[] bytes = duiTrigram.ToBytes();
 //

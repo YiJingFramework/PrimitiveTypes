@@ -1,13 +1,14 @@
-﻿using YiJingFramework.PrimitiveTypes;
+﻿using System.Diagnostics;
+using System.Text.Json;
+using YiJingFramework.PrimitiveTypes;
 
-#pragma warning disable IDE0059
 #pragma warning disable IDE0071
 
 #region to get or convert Wuxings
 Wuxing wood = Wuxing.Wood;
 
 _ = Wuxing.TryParse(" metal \t\n", out Wuxing metal);
-_ = Wuxing.TryParse(" 木 \t\n", out wood);
+_ = Wuxing.TryParse(" 木 \t\n", out _);
 // case-insensitive and allows white spaces preceding and trailing.
 
 Wuxing fire = (Wuxing)6;
@@ -29,4 +30,9 @@ Console.WriteLine($"{fire.ToString("C")}克{metal:C}");
 Console.WriteLine();
 // Output: Fire 1 OVERCOMES Metal 3!
 // 火克金
+
+var serialized = JsonSerializer.Serialize(wood);
+var deserializedWood = JsonSerializer.Deserialize<Wuxing>(serialized);
+Debug.Assert(wood == deserializedWood);
+// json (de)serializable
 #endregion
