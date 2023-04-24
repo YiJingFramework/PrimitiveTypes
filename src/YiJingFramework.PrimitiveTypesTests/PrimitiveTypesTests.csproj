@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YiJingFramework.PrimitiveTypes\YiJingFramework.PrimitiveTypes.csproj" />
+    <ProjectReference Include="..\YiJingFramework.PrimitiveTypes\PrimitiveTypes.csproj" />
   </ItemGroup>
 
 </Project>
