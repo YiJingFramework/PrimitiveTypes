@@ -212,6 +212,7 @@ public sealed class Gua :
         Yinyang yin = Yinyang.Yin;
         Yinyang yang = Yinyang.Yang;
 
+        s = s.Trim();
         List<Yinyang> r = new(s.Length);
         foreach (var c in s)
         {
@@ -253,6 +254,7 @@ public sealed class Gua :
         Yinyang yin = Yinyang.Yin;
         Yinyang yang = Yinyang.Yang;
 
+        s = s.Trim();
         List<Yinyang> r = new(s.Length);
         foreach (var c in s)
         {

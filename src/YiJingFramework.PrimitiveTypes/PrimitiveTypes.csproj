@@ -8,7 +8,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IsTrimmable>true</IsTrimmable>
 
-		<Version>1.2.0</Version>
+		<Version>1.3.0</Version>
 		<PackageId>YiJingFramework.PrimitiveTypes</PackageId>
 		<PackageProjectUrl>https://github.com/YiJingFramework/PrimitiveTypes/wiki</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/YiJingFramework/PrimitiveTypes.git</RepositoryUrl>
