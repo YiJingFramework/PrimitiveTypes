@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
+using System.Numerics;
 using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests;
@@ -320,5 +321,25 @@ public class GuaTests
             var d = JsonSerializer.Deserialize<Gua>(s)!;
             Assert.IsTrue(d.SequenceEqual(gua));
         }
+    }
+
+    [TestMethod()]
+    public void CalculatingTest()
+    {
+        Assert.AreEqual(Gua.Parse(""), Gua.Parse("") & Gua.Parse(""));
+        Assert.AreEqual(Gua.Parse("1"), Gua.Parse("1") & Gua.Parse("1"));
+        Assert.AreEqual(Gua.Parse("1000"), Gua.Parse("1100") & Gua.Parse("1010"));
+
+        Assert.AreEqual(Gua.Parse(""), Gua.Parse("") | Gua.Parse(""));
+        Assert.AreEqual(Gua.Parse("1"), Gua.Parse("1") | Gua.Parse("1"));
+        Assert.AreEqual(Gua.Parse("1110"), Gua.Parse("1100") | Gua.Parse("1010"));
+
+        Assert.AreEqual(Gua.Parse(""), Gua.Parse("") ^ Gua.Parse(""));
+        Assert.AreEqual(Gua.Parse("0"), Gua.Parse("1") ^ Gua.Parse("1"));
+        Assert.AreEqual(Gua.Parse("0110"), Gua.Parse("1100") ^ Gua.Parse("1010"));
+
+        Assert.AreEqual(Gua.Parse(""),~Gua.Parse(""));
+        Assert.AreEqual(Gua.Parse("0"), ~Gua.Parse("1"));
+        Assert.AreEqual(Gua.Parse("01"), ~Gua.Parse("10"));
     }
 }

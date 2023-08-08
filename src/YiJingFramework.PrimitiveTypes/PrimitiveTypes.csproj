@@ -8,7 +8,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IsTrimmable>true</IsTrimmable>
 
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<PackageId>YiJingFramework.PrimitiveTypes</PackageId>
 		<PackageProjectUrl>https://github.com/YiJingFramework/PrimitiveTypes/wiki</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/YiJingFramework/PrimitiveTypes.git</RepositoryUrl>
@@ -21,10 +21,15 @@
 		<PackageIcon>Taichi.png</PackageIcon>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>zhouyi;i-ching;yijing;yijingframework</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	
 	<ItemGroup>
 		<None Include="..\Taichi.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>

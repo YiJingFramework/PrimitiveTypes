@@ -17,7 +17,7 @@ namespace YiJingFramework.PrimitiveTypes;
 public sealed class Gua :
     IReadOnlyList<Yinyang>, IComparable<Gua>, IEquatable<Gua>,
     IParsable<Gua>, IEqualityOperators<Gua, Gua, bool>,
-    IStringConvertibleForJson<Gua>
+    IStringConvertibleForJson<Gua>, IBitwiseOperators<Gua, Gua, Gua>
 {
     private readonly Yinyang[] lines;
     /// <summary>
@@ -356,6 +356,76 @@ public sealed class Gua :
     string IStringConvertibleForJson<Gua>.ToStringForJson()
     {
         return this.ToString();
+    }
+    #endregion
+
+    #region calculating
+    /// <inheritdoc/>
+    /// <exception cref="ArithmeticException">
+    /// 两个卦的爻数不同。
+    /// Count of the two Guas are not equal.
+    /// </exception>
+    public static Gua operator &(Gua left, Gua right)
+    {
+        static IEnumerable<Yinyang> Calculate(Gua g1, Gua g2)
+        {
+            foreach (var (y1, y2) in g1.Zip(g2))
+                yield return y1 & y2;
+        }
+        if (left.Count != right.Count)
+            throw new ArithmeticException(
+                $"Cannot calculate {left} & {right} " +
+                $"because their count are not the same.");
+        return new Gua(Calculate(left, right));
+    }
+
+    /// <inheritdoc/>
+    /// <exception cref="ArithmeticException">
+    /// 两个卦的爻数不同。
+    /// Count of the two Guas are not equal.
+    /// </exception>
+    public static Gua operator |(Gua left, Gua right)
+    {
+        static IEnumerable<Yinyang> Calculate(Gua g1, Gua g2)
+        {
+            foreach (var (y1, y2) in g1.Zip(g2))
+                yield return y1 | y2;
+        }
+        if (left.Count != right.Count)
+            throw new ArithmeticException(
+                $"Cannot calculate {left} | {right} " +
+                $"because their count are not the same.");
+        return new Gua(Calculate(left, right));
+    }
+
+    /// <inheritdoc/>
+    /// <exception cref="ArithmeticException">
+    /// 两个卦的爻数不同。
+    /// Count of the two Guas are not equal.
+    /// </exception>
+    public static Gua operator ^(Gua left, Gua right)
+    {
+        static IEnumerable<Yinyang> Calculate(Gua g1, Gua g2)
+        {
+            foreach (var (y1, y2) in g1.Zip(g2))
+                yield return y1 ^ y2;
+        }
+        if (left.Count != right.Count)
+            throw new ArithmeticException(
+                $"Cannot calculate {left} ^ {right} " +
+                $"because their count are not the same.");
+        return new Gua(Calculate(left, right));
+    }
+
+    /// <inheritdoc/>
+    public static Gua operator ~(Gua gua)
+    {
+        static IEnumerable<Yinyang> Calculate(Gua g)
+        {
+            foreach (var y in g)
+                yield return !y;
+        }
+        return new Gua(Calculate(gua));
     }
     #endregion
 }
