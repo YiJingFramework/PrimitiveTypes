@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace YiJingFramework.PrimitiveTypes;
@@ -7,45 +8,28 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 天干。
 /// Tiangan. (The Heavenly Stems.)
 /// </summary>
-public sealed class Tiangan :
+public readonly struct Tiangan :
     IComparable<Tiangan>, IEquatable<Tiangan>, IFormattable,
     IParsable<Tiangan>, IEqualityOperators<Tiangan, Tiangan, bool>,
     IAdditionOperators<Tiangan, int, Tiangan>,
     ISubtractionOperators<Tiangan, int, Tiangan>
 {
-    /// <summary>
-    /// 天干的序数。
-    /// 如以 <c>1</c> 对应甲。
-    /// The index of the Tiangan.
-    /// For example, <c>1</c> represents Jia.
-    /// </summary>
-    public int Index { get; }
+    private readonly int index;
 
-    /// <summary>
-    /// 初始化一个实例。
-    /// Initialize an instance.
-    /// </summary>
-    /// <param name="index">
-    /// 天干的序数。
-    /// 如以 <c>1</c> 对应甲。
-    /// The index of the Tiangan.
-    /// For example, <c>1</c> represents Jia.
-    /// </param>
-    public Tiangan(int index)
+    private Tiangan(int indexChecked)
     {
-        this.Index = ((index - 1) % 10 + 10) % 10 + 1;
+        Debug.Assert(indexChecked is >= 0 and < 10);
+        this.index = indexChecked;
     }
 
     /// <summary>
-    /// 获取此天干的前第 <paramref name="n"/> 个天干。
-    /// Get the <paramref name="n"/>th Tiangan in front of this instance.
-    /// 前，如甲前为乙。
-    /// Jia is thought to be in front of Yi for example.
+    /// 获取此天干的下第 <paramref name="n"/> 个天干。
+    /// Get the <paramref name="n"/>th Tiangan next to this instance.
     /// </summary>
     /// <param name="n">
     /// 数字 <paramref name="n"/> 。
-    /// The number <paramref name="n"/>.
     /// 可以小于零以表示另一个方向。
+    /// The number <paramref name="n"/>.
     /// It could be smaller than zero which means the other direction.
     /// </param>
     /// <returns>
@@ -54,38 +38,47 @@ public sealed class Tiangan :
     /// </returns>
     public Tiangan Next(int n = 1)
     {
-        return new Tiangan(this.Index + n);
+        n %= 10;
+        n += 10;
+        n += this.index;
+        return new Tiangan(n % 10);
     }
 
     /// <inheritdoc/>
     public static Tiangan operator +(Tiangan left, int right)
     {
-        return left.Next(right);
+        right %= 10;
+        right += 10;
+        right += left.index;
+        return new Tiangan(right % 10);
     }
 
     /// <inheritdoc/>
     public static Tiangan operator -(Tiangan left, int right)
     {
-        right = right % 10;
-        return left.Next(-right);
+        right %= 10;
+        right = -right;
+        right += 10;
+        right += left.index;
+        return new Tiangan(right % 10);
     }
 
     #region converting
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.Index switch
+        return this.index switch
         {
-            1 => "Jia",
-            2 => "Yi",
-            3 => "Bing",
-            4 => "Ding",
-            5 => "Wu",
-            6 => "Ji",
-            7 => "Geng",
-            8 => "Xin",
-            9 => "Ren",
-            _ => "Gui" // 10 => "Gui"
+            0 => "Jia",
+            1 => "Yi",
+            2 => "Bing",
+            3 => "Ding",
+            4 => "Wu",
+            5 => "Ji",
+            6 => "Geng",
+            7 => "Xin",
+            8 => "Ren",
+            _ => "Gui"
         };
     }
 
@@ -96,8 +89,8 @@ public sealed class Tiangan :
     /// <param name="format">
     /// 要使用的格式。
     /// The format to be used.
-    /// <c>"G"</c> 表示拼音字母； <c>"C"</c> 表示中文； <c>"N"</c> 表示数字。
-    /// <c>"G"</c> represents the phonetic alphabets; <c>"C"</c> represents chinese characters; and <c>"N"</c> represents numbers.
+    /// <c>"G"</c> 表示拼音字母； <c>"C"</c> 表示中文。
+    /// <c>"G"</c> represents the phonetic alphabets; and <c>"C"</c> represents chinese characters.
     /// </param>
     /// <param name="formatProvider">
     /// 不会使用此参数。
@@ -119,20 +112,19 @@ public sealed class Tiangan :
         return format.ToUpperInvariant() switch
         {
             "G" => this.ToString(),
-            "C" => this.Index switch
+            "C" => this.index switch
             {
-                1 => "甲",
-                2 => "乙",
-                3 => "丙",
-                4 => "丁",
-                5 => "戊",
-                6 => "己",
-                7 => "庚",
-                8 => "辛",
-                9 => "壬",
-                _ => "癸" // 10 => "癸"
+                0 => "甲",
+                1 => "乙",
+                2 => "丙",
+                3 => "丁",
+                4 => "戊",
+                5 => "己",
+                6 => "庚",
+                7 => "辛",
+                8 => "壬",
+                _ => "癸"
             },
-            "N" => this.Index.ToString(),
             _ => throw new FormatException($"The format string \"{format}\" is not supported.")
         };
     }
@@ -190,53 +182,43 @@ public sealed class Tiangan :
         {
             case "jia":
             case "甲":
-            case "1":
-                result = new Tiangan(1);
+                result = Jia;
                 return true;
             case "yi":
             case "乙":
-            case "2":
-                result = new Tiangan(2);
+                result = Yi;
                 return true;
             case "bing":
             case "丙":
-            case "3":
-                result = new Tiangan(3);
+                result = Bing;
                 return true;
             case "ding":
             case "丁":
-            case "4":
-                result = new Tiangan(4);
+                result = Ding;
                 return true;
             case "wu":
             case "戊":
-            case "5":
-                result = new Tiangan(5);
+                result = Wu;
                 return true;
             case "ji":
             case "己":
-            case "6":
-                result = new Tiangan(6);
+                result = Ji;
                 return true;
             case "geng":
             case "庚":
-            case "7":
-                result = new Tiangan(7);
+                result = Geng;
                 return true;
             case "xin":
             case "辛":
-            case "8":
-                result = new Tiangan(8);
+                result = Xin;
                 return true;
             case "ren":
             case "壬":
-            case "9":
-                result = new Tiangan(9);
+                result = Ren;
                 return true;
             case "gui":
             case "癸":
-            case "10":
-                result = new Tiangan(10);
+                result = Gui;
                 return true;
             default:
                 result = default;
@@ -260,27 +242,29 @@ public sealed class Tiangan :
     /// <inheritdoc/>
     public static explicit operator int(Tiangan tiangan)
     {
-        return tiangan.Index;
+        return tiangan.index + 1;
     }
 
     /// <inheritdoc/>
     public static explicit operator Tiangan(int value)
     {
-        return new Tiangan(value);
+        value %= 10;
+        value += 10 - 1;
+        return new Tiangan(value % 10);
     }
     #endregion
 
     #region comparing
     /// <inheritdoc/>
-    public int CompareTo(Tiangan? other)
+    public int CompareTo(Tiangan other)
     {
-        return this.Index.CompareTo(other?.Index);
+        return this.index.CompareTo(other.index);
     }
 
     /// <inheritdoc/>
-    public bool Equals(Tiangan? other)
+    public bool Equals(Tiangan other)
     {
-        return this.Index.Equals(other?.Index);
+        return this.index.Equals(other.index);
     }
 
     /// <inheritdoc/>
@@ -288,25 +272,25 @@ public sealed class Tiangan :
     {
         if (obj is not Tiangan other)
             return false;
-        return this.Index.Equals(other.Index);
+        return this.index.Equals(other.index);
     }
 
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return this.Index.GetHashCode();
+        return this.index.GetHashCode();
     }
 
     /// <inheritdoc/>
-    public static bool operator ==(Tiangan? left, Tiangan? right)
+    public static bool operator ==(Tiangan left, Tiangan right)
     {
-        return left?.Index == right?.Index;
+        return left.index == right.index;
     }
 
     /// <inheritdoc/>
-    public static bool operator !=(Tiangan? left, Tiangan? right)
+    public static bool operator !=(Tiangan left, Tiangan right)
     {
-        return left?.Index != right?.Index;
+        return left.index != right.index;
     }
     #endregion
 
@@ -315,51 +299,51 @@ public sealed class Tiangan :
     /// 甲。
     /// Jia.
     /// </summary>
-    public static Tiangan Jia => new Tiangan(1);
+    public static Tiangan Jia => new Tiangan(0);
     /// <summary>
     /// 乙。
     /// Yi.
     /// </summary>
-    public static Tiangan Yi => new Tiangan(2);
+    public static Tiangan Yi => new Tiangan(1);
     /// <summary>
     /// 丙。
     /// Bing.
     /// </summary>
-    public static Tiangan Bing => new Tiangan(3);
+    public static Tiangan Bing => new Tiangan(2);
     /// <summary>
     /// 丁。
     /// Ding.
     /// </summary>
-    public static Tiangan Ding => new Tiangan(4);
+    public static Tiangan Ding => new Tiangan(3);
     /// <summary>
     /// 戊。
     /// Wu.
     /// </summary>
-    public static Tiangan Wu => new Tiangan(5);
+    public static Tiangan Wu => new Tiangan(4);
     /// <summary>
     /// 己。
     /// Ji.
     /// </summary>
-    public static Tiangan Ji => new Tiangan(6);
+    public static Tiangan Ji => new Tiangan(5);
     /// <summary>
     /// 庚。
     /// Geng.
     /// </summary>
-    public static Tiangan Geng => new Tiangan(7);
+    public static Tiangan Geng => new Tiangan(6);
     /// <summary>
     /// 辛。
     /// Xin.
     /// </summary>
-    public static Tiangan Xin => new Tiangan(8);
+    public static Tiangan Xin => new Tiangan(7);
     /// <summary>
     /// 壬。
     /// Ren.
     /// </summary>
-    public static Tiangan Ren => new Tiangan(9);
+    public static Tiangan Ren => new Tiangan(8);
     /// <summary>
     /// 癸。
     /// Gui.
     /// </summary>
-    public static Tiangan Gui => new Tiangan(10);
+    public static Tiangan Gui => new Tiangan(9);
     #endregion
 }

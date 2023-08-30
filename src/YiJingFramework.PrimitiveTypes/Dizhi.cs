@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace YiJingFramework.PrimitiveTypes;
@@ -7,45 +8,27 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 地支。
 /// Dizhi. (The Earthly Branches.)
 /// </summary>
-public sealed class Dizhi :
+public readonly struct Dizhi :
     IComparable<Dizhi>, IEquatable<Dizhi>, IFormattable,
     IParsable<Dizhi>, IEqualityOperators<Dizhi, Dizhi, bool>,
     IAdditionOperators<Dizhi, int, Dizhi>,
     ISubtractionOperators<Dizhi, int, Dizhi>
 {
-    /// <summary>
-    /// 地支的序数。
-    /// 如以 <c>1</c> 对应子。
-    /// The index of the Dizhi.
-    /// For example, <c>1</c> represents Zi.
-    /// </summary>
-    public int Index { get; }
-
-    /// <summary>
-    /// 初始化一个实例。
-    /// Initialize an instance.
-    /// </summary>
-    /// <param name="index">
-    /// 地支的序数。
-    /// 如以 <c>1</c> 对应子。
-    /// The index of the Dizhi.
-    /// For example, <c>1</c> represents Zi.
-    /// </param>
-    public Dizhi(int index)
+    private readonly int index;
+    private Dizhi(int indexChecked)
     {
-        this.Index = ((index - 1) % 12 + 12) % 12 + 1;
+        Debug.Assert(indexChecked is >= 0 and < 12);
+        this.index = indexChecked;
     }
 
     /// <summary>
-    /// 获取此地支的前第 <paramref name="n"/> 个地支。
-    /// Get the <paramref name="n"/>th Dizhi in front of this instance.
-    /// 前，如子前为丑。
-    /// Chou is thought to be in front of Zi for example.
+    /// 获取此地支的下第 <paramref name="n"/> 个地支。
+    /// Get the <paramref name="n"/>th Dizhi next to this instance.
     /// </summary>
     /// <param name="n">
     /// 数字 <paramref name="n"/> 。
-    /// The number <paramref name="n"/>.
     /// 可以小于零以表示另一个方向。
+    /// The number <paramref name="n"/>.
     /// It could be smaller than zero which means the other direction.
     /// </param>
     /// <returns>
@@ -54,20 +37,29 @@ public sealed class Dizhi :
     /// </returns>
     public Dizhi Next(int n = 1)
     {
-        return new Dizhi(this.Index + n);
+        n %= 12;
+        n += 12;
+        n += this.index;
+        return new Dizhi(n % 12);
     }
 
     /// <inheritdoc/>
     public static Dizhi operator +(Dizhi left, int right)
     {
-        return left.Next(right);
+        right %= 12;
+        right += 12;
+        right += left.index;
+        return new Dizhi(right % 12);
     }
 
     /// <inheritdoc/>
     public static Dizhi operator -(Dizhi left, int right)
     {
-        right = right % 12;
-        return left.Next(-right);
+        right %= 12;
+        right = -right;
+        right += 12;
+        right += left.index;
+        return new Dizhi(right % 12);
     }
 
     #region converting
@@ -75,20 +67,20 @@ public sealed class Dizhi :
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.Index switch
+        return this.index switch
         {
-            1 => "Zi",
-            2 => "Chou",
-            3 => "Yin",
-            4 => "Mao",
-            5 => "Chen",
-            6 => "Si",
-            7 => "Wu",
-            8 => "Wei",
-            9 => "Shen",
-            10 => "You",
-            11 => "Xu",
-            _ => "Hai" // 12 => "Hai"
+            0 => "Zi",
+            1 => "Chou",
+            2 => "Yin",
+            3 => "Mao",
+            4 => "Chen",
+            5 => "Si",
+            6 => "Wu",
+            7 => "Wei",
+            8 => "Shen",
+            9 => "You",
+            10 => "Xu",
+            _ => "Hai"
         };
     }
 
@@ -99,8 +91,8 @@ public sealed class Dizhi :
     /// <param name="format">
     /// 要使用的格式。
     /// The format to be used.
-    /// <c>"G"</c> 表示拼音字母； <c>"C"</c> 表示中文； <c>"N"</c> 表示数字。
-    /// <c>"G"</c> represents the phonetic alphabets; <c>"C"</c> represents chinese characters; and <c>"N"</c> represents numbers.
+    /// <c>"G"</c> 表示拼音字母； <c>"C"</c> 表示中文。
+    /// <c>"G"</c> represents the phonetic alphabets; and <c>"C"</c> represents chinese characters.
     /// </param>
     /// <param name="formatProvider">
     /// 不会使用此参数。
@@ -122,22 +114,21 @@ public sealed class Dizhi :
         return format.ToUpperInvariant() switch
         {
             "G" => this.ToString(),
-            "C" => this.Index switch
+            "C" => this.index switch
             {
-                1 => "子",
-                2 => "丑",
-                3 => "寅",
-                4 => "卯",
-                5 => "辰",
-                6 => "巳",
-                7 => "午",
-                8 => "未",
-                9 => "申",
-                10 => "酉",
-                11 => "戌",
-                _ => "亥" // 12 => "亥"
+                0 => "子",
+                1 => "丑",
+                2 => "寅",
+                3 => "卯",
+                4 => "辰",
+                5 => "巳",
+                6 => "午",
+                7 => "未",
+                8 => "申",
+                9 => "酉",
+                10 => "戌",
+                _ => "亥"
             },
-            "N" => this.Index.ToString(),
             _ => throw new FormatException($"The format string \"{format}\" is not supported.")
         };
     }
@@ -195,66 +186,54 @@ public sealed class Dizhi :
         {
             case "zi":
             case "子":
-            case "1":
-                result = new Dizhi(1);
+                result = Zi;
                 return true;
             case "chou":
             case "丑":
-            case "2":
-                result = new Dizhi(2);
+                result = Chou;
                 return true;
             case "yin":
             case "寅":
-            case "3":
-                result = new Dizhi(3);
+                result = Yin;
                 return true;
             case "mao":
             case "卯":
-            case "4":
-                result = new Dizhi(4);
+                result = Mao;
                 return true;
             case "chen":
             case "辰":
-            case "5":
-                result = new Dizhi(5);
+                result = Chen;
                 return true;
             case "si":
             case "巳":
-            case "6":
-                result = new Dizhi(6);
+                result = Si;
                 return true;
             case "wu":
             case "午":
-            case "7":
-                result = new Dizhi(7);
+                result = Wu;
                 return true;
             case "wei":
             case "未":
-            case "8":
-                result = new Dizhi(8);
+                result = Wei;
                 return true;
             case "shen":
             case "申":
-            case "9":
-                result = new Dizhi(9);
+                result = Shen;
                 return true;
             case "you":
             case "酉":
-            case "10":
-                result = new Dizhi(10);
+                result = You;
                 return true;
             case "xu":
             case "戌":
-            case "11":
-                result = new Dizhi(11);
+                result = Xu;
                 return true;
             case "hai":
             case "亥":
-            case "12":
-                result = new Dizhi(12);
+                result = Hai;
                 return true;
             default:
-                result = null;
+                result = default;
                 return false;
         }
     }
@@ -276,29 +255,31 @@ public sealed class Dizhi :
     /// <inheritdoc/>
     public static explicit operator int(Dizhi dizhi)
     {
-        return dizhi.Index;
+        return dizhi.index + 1;
     }
 
 
     /// <inheritdoc/>
     public static explicit operator Dizhi(int value)
     {
-        return new Dizhi(value);
+        value %= 12;
+        value += 12 - 1;
+        return new Dizhi(value % 12);
     }
     #endregion
 
     #region comparing
 
     /// <inheritdoc/>
-    public int CompareTo(Dizhi? other)
+    public int CompareTo(Dizhi other)
     {
-        return this.Index.CompareTo(other?.Index);
+        return this.index.CompareTo(other.index);
     }
 
     /// <inheritdoc/>
-    public bool Equals(Dizhi? other)
+    public bool Equals(Dizhi other)
     {
-        return this.Index.Equals(other?.Index);
+        return this.index.Equals(other.index);
     }
 
     /// <inheritdoc/>
@@ -306,25 +287,25 @@ public sealed class Dizhi :
     {
         if (obj is not Dizhi other)
             return false;
-        return this.Index.Equals(other.Index);
+        return this.index.Equals(other.index);
     }
 
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return this.Index.GetHashCode();
+        return this.index.GetHashCode();
     }
 
     /// <inheritdoc/>
-    public static bool operator ==(Dizhi? left, Dizhi? right)
+    public static bool operator ==(Dizhi left, Dizhi right)
     {
-        return left?.Index == right?.Index;
+        return left.index == right.index;
     }
 
     /// <inheritdoc/>
-    public static bool operator !=(Dizhi? left, Dizhi? right)
+    public static bool operator !=(Dizhi left, Dizhi right)
     {
-        return left?.Index != right?.Index;
+        return left.index != right.index;
     }
     #endregion
 
@@ -333,61 +314,61 @@ public sealed class Dizhi :
     /// 子。
     /// Zi.
     /// </summary>
-    public static Dizhi Zi => new Dizhi(1);
+    public static Dizhi Zi => new Dizhi(0);
     /// <summary>
     /// 丑。
     /// Chou.
     /// </summary>
-    public static Dizhi Chou => new Dizhi(2);
+    public static Dizhi Chou => new Dizhi(1);
     /// <summary>
     /// 寅。
     /// Yin.
     /// </summary>
-    public static Dizhi Yin => new Dizhi(3);
+    public static Dizhi Yin => new Dizhi(2);
     /// <summary>
     /// 卯。
     /// Mao.
     /// </summary>
-    public static Dizhi Mao => new Dizhi(4);
+    public static Dizhi Mao => new Dizhi(3);
     /// <summary>
     /// 辰。
     /// Chen.
     /// </summary>
-    public static Dizhi Chen => new Dizhi(5);
+    public static Dizhi Chen => new Dizhi(4);
     /// <summary>
     /// 巳。
     /// Si.
     /// </summary>
-    public static Dizhi Si => new Dizhi(6);
+    public static Dizhi Si => new Dizhi(5);
     /// <summary>
     /// 午。
     /// Wu.
     /// </summary>
-    public static Dizhi Wu => new Dizhi(7);
+    public static Dizhi Wu => new Dizhi(6);
     /// <summary>
     /// 未。
     /// Wei.
     /// </summary>
-    public static Dizhi Wei => new Dizhi(8);
+    public static Dizhi Wei => new Dizhi(7);
     /// <summary>
     /// 申。
     /// Shen.
     /// </summary>
-    public static Dizhi Shen => new Dizhi(9);
+    public static Dizhi Shen => new Dizhi(8);
     /// <summary>
     /// 酉。
     /// You.
     /// </summary>
-    public static Dizhi You => new Dizhi(10);
+    public static Dizhi You => new Dizhi(9);
     /// <summary>
     /// 戌。
     /// Xu.
     /// </summary>
-    public static Dizhi Xu => new Dizhi(11);
+    public static Dizhi Xu => new Dizhi(10);
     /// <summary>
     /// 亥。
     /// Hai.
     /// </summary>
-    public static Dizhi Hai => new Dizhi(12);
+    public static Dizhi Hai => new Dizhi(11);
     #endregion
 }

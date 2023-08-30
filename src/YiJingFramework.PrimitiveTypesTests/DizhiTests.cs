@@ -8,20 +8,19 @@ public class DizhiTests
     [TestMethod()]
     public void ConvertingTest()
     {
-        Assert.AreEqual(1, (int)new Dizhi(1));
-        Assert.AreEqual(4, (int)new Dizhi(4));
-        Assert.AreEqual(2, (int)new Dizhi(14));
+        Assert.AreEqual(1, (int)Dizhi.Zi);
+        Assert.AreEqual(4, (int)Dizhi.Mao);
+        Assert.AreEqual(2, (int)(Dizhi)14);
 
-        Assert.AreEqual("Yin", new Dizhi(3).ToString());
-        Assert.AreEqual("未", new Dizhi(8).ToString("C"));
-        Assert.AreEqual("8", Dizhi.Wei.ToString("N"));
+        Assert.AreEqual("Yin", Dizhi.Yin.ToString());
+        Assert.AreEqual("未", Dizhi.Wei.ToString("C"));
 
-        Assert.AreEqual("Hai", new Dizhi(0).ToString());
-        Assert.AreEqual("You", new Dizhi(-2).ToString());
+        Assert.AreEqual("Hai", ((Dizhi)0).ToString());
+        Assert.AreEqual("You", ((Dizhi)(-2)).ToString());
 
         for (int i = -1007, j = 1; i < 1000; i++)
         {
-            Assert.AreEqual(new Dizhi(j), (Dizhi)i);
+            Assert.AreEqual((Dizhi)j, (Dizhi)i);
             j++;
             if (j == 13)
                 j = 1;
@@ -39,14 +38,14 @@ public class DizhiTests
 
         Assert.AreEqual(Dizhi.Zi, Dizhi.Parse("zI"));
         Assert.AreEqual(Dizhi.Yin, Parse<Dizhi>("寅"));
-        _ = TryParse<Dizhi>("8", out var p);
+        _ = TryParse<Dizhi>("wei     ", out var p);
         Assert.AreEqual(Dizhi.Wei, p);
 
         Assert.AreEqual(Dizhi.Hai, Dizhi.Zi.Next(12 + 11));
-        Assert.AreEqual(new Dizhi(11), Dizhi.Zi.Next(-2));
+        Assert.AreEqual((Dizhi)(11), Dizhi.Zi.Next(-2));
 
-        Assert.AreEqual(new Dizhi(1) + 15, new Dizhi(4));
-        Assert.AreEqual(new Dizhi(1) - 15, new Dizhi(10));
+        Assert.AreEqual((Dizhi)(1) + 15, (Dizhi)(4));
+        Assert.AreEqual((Dizhi)(1) - 15, (Dizhi)(10));
     }
 
     [TestMethod()]

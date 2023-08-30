@@ -8,20 +8,19 @@ public class TianganTests
     [TestMethod()]
     public void ConvertingTest()
     {
-        Assert.AreEqual(1, (int)new Tiangan(1));
-        Assert.AreEqual(4, (int)new Tiangan(4));
-        Assert.AreEqual(2, (int)new Tiangan(12));
+        Assert.AreEqual(1, (int)Tiangan.Jia);
+        Assert.AreEqual(4, (int)Tiangan.Ding);
+        Assert.AreEqual(2, (int)(Tiangan)12);
 
-        Assert.AreEqual("Bing", new Tiangan(3).ToString());
-        Assert.AreEqual("辛", new Tiangan(8).ToString("C"));
-        Assert.AreEqual("8", new Tiangan(8).ToString("N"));
+        Assert.AreEqual("Bing", Tiangan.Bing.ToString());
+        Assert.AreEqual("辛", Tiangan.Xin.ToString("C"));
 
-        Assert.AreEqual("Gui", new Tiangan(0).ToString());
-        Assert.AreEqual("Xin", new Tiangan(-2).ToString());
+        Assert.AreEqual("Gui", ((Tiangan)0).ToString());
+        Assert.AreEqual("Xin", ((Tiangan)(-2)).ToString());
 
         for (int i = -999, j = 1; i < 1000; i++)
         {
-            Assert.AreEqual(new Tiangan(j), (Tiangan)i);
+            Assert.AreEqual((Tiangan)j, (Tiangan)i);
             j++;
             if (j == 11)
                 j = 1;
@@ -39,15 +38,15 @@ public class TianganTests
 
         Assert.AreEqual(Tiangan.Jia, Tiangan.Parse("jIa"));
         Assert.AreEqual(Tiangan.Gui, Parse<Tiangan>("癸"));
-        _ = TryParse<Tiangan>("4", out var p);
+        _ = TryParse<Tiangan>("ding    ", out var p);
         Assert.AreEqual(Tiangan.Ding, p);
 
 
-        Assert.AreEqual(new Tiangan(1).Next(10 + 3), new Tiangan(4));
-        Assert.AreEqual(new Tiangan(1).Next(-2), new Tiangan(9));
+        Assert.AreEqual((Tiangan)4, ((Tiangan)(1)).Next(10 + 3));
+        Assert.AreEqual((Tiangan)9, ((Tiangan)(1)).Next(-2));
 
-        Assert.AreEqual(new Tiangan(1) + 15, new Tiangan(6));
-        Assert.AreEqual(new Tiangan(1) - 15, new Tiangan(6));
+        Assert.AreEqual((Tiangan)(6), ((Tiangan)(1)) + 15);
+        Assert.AreEqual((Tiangan)(6), ((Tiangan)(1)) - 15);
     }
 
     [TestMethod()]
