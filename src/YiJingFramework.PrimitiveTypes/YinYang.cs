@@ -19,7 +19,7 @@ public readonly struct Yinyang :
     /// </summary>
     /// <param name="isYang">
     /// 若值为 <c>true</c> ，则此实例将表示阳；否则表示阴。
-    /// If the value is <c>true</c>, the instance will represents yang; otherwise, yin.
+    /// If the value is <c>true</c>, the instance will represents Yang; otherwise, Yin.
     /// </param>
     public Yinyang(bool isYang)
     {
@@ -36,7 +36,7 @@ public readonly struct Yinyang :
     /// 阴。
     /// Yin.
     /// </summary>
-    public static Yinyang Yin => default; // => new Yinyang(false);
+    public static Yinyang Yin => new Yinyang(false);
     #endregion
 
     #region calculating
@@ -74,7 +74,7 @@ public readonly struct Yinyang :
     #region converting
     /// <summary>
     /// 获取此实例是否表示阳。
-    /// Get whether the instance represents yang.
+    /// Get whether the instance represents Yang.
     /// </summary>
     public bool IsYang { get; }
 
@@ -90,9 +90,9 @@ public readonly struct Yinyang :
     /// </summary>
     /// <param name="format">
     /// 要使用的格式。
-    /// <c>"G"</c> 表示英文； <c>"C"</c> 表示中文。
-    /// The format to be used.
-    /// <c>"G"</c> represents English; and <c>"C"</c> represents Chinese.
+    /// <c>"G"</c> 表示拼音； <c>"C"</c> 表示中文。
+    /// The format to use.
+    /// <c>"G"</c> means to be in Pinyin; and <c>"C"</c> means in Chinese.
     /// </param>
     /// <param name="formatProvider">
     /// 不会使用此参数。

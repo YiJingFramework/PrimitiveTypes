@@ -6,7 +6,7 @@ namespace YiJingFramework.PrimitiveTypes;
 
 /// <summary>
 /// 地支。
-/// Dizhi. (The Earthly Branches.)
+/// Dizhi.
 /// </summary>
 public readonly struct Dizhi :
     IComparable<Dizhi>, IEquatable<Dizhi>, IFormattable,
@@ -90,9 +90,9 @@ public readonly struct Dizhi :
     /// </summary>
     /// <param name="format">
     /// 要使用的格式。
-    /// The format to be used.
-    /// <c>"G"</c> 表示拼音字母； <c>"C"</c> 表示中文。
-    /// <c>"G"</c> represents the phonetic alphabets; and <c>"C"</c> represents chinese characters.
+    /// <c>"G"</c> 表示拼音； <c>"C"</c> 表示中文。
+    /// The format to use.
+    /// <c>"G"</c> means to be in Pinyin; and <c>"C"</c> means in Chinese.
     /// </param>
     /// <param name="formatProvider">
     /// 不会使用此参数。

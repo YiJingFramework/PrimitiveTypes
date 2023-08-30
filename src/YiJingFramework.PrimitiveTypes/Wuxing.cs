@@ -6,7 +6,7 @@ namespace YiJingFramework.PrimitiveTypes;
 
 /// <summary>
 /// 五行。
-/// Wuxing. (The Five Elements.)
+/// Wuxing.
 /// </summary>
 public readonly struct Wuxing :
     IComparable<Wuxing>, IEquatable<Wuxing>, IFormattable,
@@ -69,8 +69,9 @@ public readonly struct Wuxing :
     /// </summary>
     /// <param name="format">
     /// 要使用的格式。
-    /// <c>"G"</c> 表示英文； <c>"C"</c> 表示中文。
-    /// <c>"G"</c> represents English; and <c>"C"</c> represents Chinese.
+    /// <c>"G"</c> 表示拼音； <c>"C"</c> 表示中文。
+    /// The format to use.
+    /// <c>"G"</c> means to be in Pinyin; and <c>"C"</c> means in Chinese.
     /// </param>
     /// <param name="formatProvider">
     /// 不会使用此参数。
