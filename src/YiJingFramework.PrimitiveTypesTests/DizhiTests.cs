@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests;
 
@@ -106,18 +105,6 @@ public class DizhiTests
             }
             Assert.AreEqual(false, firF.Equals(null));
             Assert.AreEqual(false, secF.Equals(new object()));
-        }
-    }
-
-    [TestMethod()]
-    public void SerializationTest()
-    {
-        for (int i = 0; i < 12; i++)
-        {
-            var element = (Dizhi)i;
-            var s = JsonSerializer.Serialize(element);
-            var d = JsonSerializer.Deserialize<Dizhi>(s);
-            Assert.AreEqual(element, d);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests;
 
@@ -160,18 +159,6 @@ public class WuxingTests
             Assert.AreEqual(waterP, woodP - 1);
             Assert.AreEqual(woodP, woodP - 0);
             Assert.AreEqual(fireP, woodP - (-1));
-        }
-    }
-
-    [TestMethod()]
-    public void SerializationTest()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            var wuxing = (Wuxing)i;
-            var s = JsonSerializer.Serialize(wuxing);
-            var d = JsonSerializer.Deserialize<Wuxing>(s);
-            Assert.AreEqual(wuxing, d);
         }
     }
 }

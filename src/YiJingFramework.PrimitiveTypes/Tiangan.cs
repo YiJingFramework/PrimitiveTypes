@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
-using System.Text.Json.Serialization;
-using YiJingFramework.PrimitiveTypes.Serialization;
 
 namespace YiJingFramework.PrimitiveTypes;
 
@@ -9,11 +7,9 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 天干。
 /// Tiangan. (The Heavenly Stems.)
 /// </summary>
-[JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Tiangan>))]
 public readonly struct Tiangan :
     IComparable<Tiangan>, IEquatable<Tiangan>, IFormattable,
     IParsable<Tiangan>, IEqualityOperators<Tiangan, Tiangan, bool>,
-    IStringConvertibleForJson<Tiangan>,
     IAdditionOperators<Tiangan, int, Tiangan>,
     ISubtractionOperators<Tiangan, int, Tiangan>
 {
@@ -78,7 +74,8 @@ public readonly struct Tiangan :
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.Index switch {
+        return this.Index switch
+        {
             1 => "Jia",
             2 => "Yi",
             3 => "Bing",
@@ -119,9 +116,11 @@ public readonly struct Tiangan :
         if (string.IsNullOrEmpty(format))
             format = "G";
 
-        return format.ToUpperInvariant() switch {
+        return format.ToUpperInvariant() switch
+        {
             "G" => this.ToString(),
-            "C" => this.Index switch {
+            "C" => this.Index switch
+            {
                 1 => "甲",
                 2 => "乙",
                 3 => "丙",
@@ -308,18 +307,6 @@ public readonly struct Tiangan :
     public static bool operator !=(Tiangan left, Tiangan right)
     {
         return left.Index != right.Index;
-    }
-    #endregion
-
-    #region serializing
-    static bool IStringConvertibleForJson<Tiangan>.FromStringForJson(string s, out Tiangan result)
-    {
-        return TryParse(s, out result);
-    }
-
-    string IStringConvertibleForJson<Tiangan>.ToStringForJson()
-    {
-        return this.ToString();
     }
     #endregion
 

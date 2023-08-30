@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Numerics;
-using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests;
 
@@ -139,16 +138,5 @@ public class YinyangTests
         Assert.AreEqual(true, Yinyang.Yang != Yinyang.Yin);
         Assert.AreEqual(true, Yinyang.Yin != Yinyang.Yang);
         Assert.AreEqual(false, Yinyang.Yin != Yinyang.Yin);
-    }
-    [TestMethod()]
-    public void SerializationTest()
-    {
-        var s = JsonSerializer.Serialize(Yinyang.Yin);
-        var d = JsonSerializer.Deserialize<Yinyang>(s);
-        Assert.IsFalse(d.IsYang);
-
-        s = JsonSerializer.Serialize(Yinyang.Yang);
-        d = JsonSerializer.Deserialize<Yinyang>(s);
-        Assert.IsTrue(d.IsYang);
     }
 }

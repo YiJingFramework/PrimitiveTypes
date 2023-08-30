@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests;
 
@@ -107,17 +106,6 @@ public class TianganTests
             }
             Assert.AreEqual(false, firF.Equals(null));
             Assert.AreEqual(false, secF.Equals(new object()));
-        }
-    }
-    [TestMethod()]
-    public void SerializationTest()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            var element = (Tiangan)i;
-            var s = JsonSerializer.Serialize(element);
-            var d = JsonSerializer.Deserialize<Tiangan>(s);
-            Assert.AreEqual(element, d);
         }
     }
 }

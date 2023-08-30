@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
-using System.Text.Json.Serialization;
-using YiJingFramework.PrimitiveTypes.Serialization;
 
 namespace YiJingFramework.PrimitiveTypes;
 
@@ -10,11 +8,9 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 五行。
 /// Wuxing. (The Five Elements.)
 /// </summary>
-[JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Wuxing>))]
 public readonly struct Wuxing :
     IComparable<Wuxing>, IEquatable<Wuxing>, IFormattable,
     IParsable<Wuxing>, IEqualityOperators<Wuxing, Wuxing, bool>,
-    IStringConvertibleForJson<Wuxing>,
     IAdditionOperators<Wuxing, int, Wuxing>,
     ISubtractionOperators<Wuxing, int, Wuxing>
 {
@@ -57,7 +53,8 @@ public readonly struct Wuxing :
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.int32Value switch {
+        return this.int32Value switch
+        {
             0 => "Wood",
             1 => "Fire",
             2 => "Earth",
@@ -92,9 +89,11 @@ public readonly struct Wuxing :
         if (string.IsNullOrEmpty(format))
             format = "G";
 
-        return format.ToUpperInvariant() switch {
+        return format.ToUpperInvariant() switch
+        {
             "G" => this.ToString(),
-            "C" => this.int32Value switch {
+            "C" => this.int32Value switch
+            {
                 0 => "木",
                 1 => "火",
                 2 => "土",
@@ -262,18 +261,6 @@ public readonly struct Wuxing :
     {
         right = -(right % 5) + 5;
         return new Wuxing(left.int32Value + right);
-    }
-    #endregion
-
-    #region serializing
-    static bool IStringConvertibleForJson<Wuxing>.FromStringForJson(string s, out Wuxing result)
-    {
-        return TryParse(s, out result);
-    }
-
-    string IStringConvertibleForJson<Wuxing>.ToStringForJson()
-    {
-        return this.ToString();
     }
     #endregion
 }

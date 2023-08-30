@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
-using System.Text.Json.Serialization;
-using YiJingFramework.PrimitiveTypes.Serialization;
 
 namespace YiJingFramework.PrimitiveTypes;
 
@@ -9,12 +7,10 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 阴阳。
 /// Yinyang.
 /// </summary>
-[JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Yinyang>))]
 public readonly struct Yinyang :
     IComparable<Yinyang>, IEquatable<Yinyang>, IFormattable,
     IParsable<Yinyang>, IEqualityOperators<Yinyang, Yinyang, bool>,
-    IBitwiseOperators<Yinyang, Yinyang, Yinyang>,
-    IStringConvertibleForJson<Yinyang>
+    IBitwiseOperators<Yinyang, Yinyang, Yinyang>
 {
     #region creating
     /// <summary>
@@ -114,7 +110,8 @@ public readonly struct Yinyang :
     {
         if (string.IsNullOrEmpty(format))
             format = "G";
-        return format.ToUpperInvariant() switch {
+        return format.ToUpperInvariant() switch
+        {
             "G" => this.ToString(),
             "C" => this.IsYang ? "阳" : "阴",
             _ => throw new FormatException($"The format string \"{format}\" is not supported.")
@@ -145,7 +142,8 @@ public readonly struct Yinyang :
     {
         ArgumentNullException.ThrowIfNull(s);
 
-        return s.Trim().ToLowerInvariant() switch {
+        return s.Trim().ToLowerInvariant() switch
+        {
             "阳" or "yang" => Yang,
             "阴" or "yin" => Yin,
             _ => throw new FormatException(
@@ -264,18 +262,6 @@ public readonly struct Yinyang :
     public static bool operator !=(Yinyang left, Yinyang right)
     {
         return left.IsYang != right.IsYang;
-    }
-    #endregion
-
-    #region serializing
-    static bool IStringConvertibleForJson<Yinyang>.FromStringForJson(string s, out Yinyang result)
-    {
-        return TryParse(s, out result);
-    }
-
-    string IStringConvertibleForJson<Yinyang>.ToStringForJson()
-    {
-        return this.ToString();
     }
     #endregion
 }

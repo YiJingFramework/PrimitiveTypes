@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
-using System.Numerics;
-using System.Text.Json;
 
 namespace YiJingFramework.PrimitiveTypes.Tests;
 
@@ -305,23 +303,6 @@ public class GuaTests
             }
         }
     }
-    [TestMethod()]
-    public void SerializationTest()
-    {
-        Random random = new Random();
-        for (int i = 0; i < 20; i++)
-        {
-            var c = random.Next(0, 100);
-            List<Yinyang> lines1 = new();
-            for (int j = 0; j < c; j++)
-                lines1.Add((Yinyang)random.Next(0, 2));
-            var gua = new Gua(lines1);
-
-            var s = JsonSerializer.Serialize(gua);
-            var d = JsonSerializer.Deserialize<Gua>(s)!;
-            Assert.IsTrue(d.SequenceEqual(gua));
-        }
-    }
 
     [TestMethod()]
     public void CalculatingTest()
@@ -338,7 +319,7 @@ public class GuaTests
         Assert.AreEqual(Gua.Parse("0"), Gua.Parse("1") ^ Gua.Parse("1"));
         Assert.AreEqual(Gua.Parse("0110"), Gua.Parse("1100") ^ Gua.Parse("1010"));
 
-        Assert.AreEqual(Gua.Parse(""),~Gua.Parse(""));
+        Assert.AreEqual(Gua.Parse(""), ~Gua.Parse(""));
         Assert.AreEqual(Gua.Parse("0"), ~Gua.Parse("1"));
         Assert.AreEqual(Gua.Parse("01"), ~Gua.Parse("10"));
     }

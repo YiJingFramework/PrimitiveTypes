@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
-using System.Text.Json.Serialization;
-using YiJingFramework.PrimitiveTypes.Serialization;
 
 namespace YiJingFramework.PrimitiveTypes;
 
@@ -9,11 +7,9 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 地支。
 /// Dizhi. (The Earthly Branches.)
 /// </summary>
-[JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Dizhi>))]
 public readonly struct Dizhi :
     IComparable<Dizhi>, IEquatable<Dizhi>, IFormattable,
     IParsable<Dizhi>, IEqualityOperators<Dizhi, Dizhi, bool>,
-    IStringConvertibleForJson<Dizhi>,
     IAdditionOperators<Dizhi, int, Dizhi>,
     ISubtractionOperators<Dizhi, int, Dizhi>
 {
@@ -79,7 +75,8 @@ public readonly struct Dizhi :
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.Index switch {
+        return this.Index switch
+        {
             1 => "Zi",
             2 => "Chou",
             3 => "Yin",
@@ -122,9 +119,11 @@ public readonly struct Dizhi :
         if (string.IsNullOrEmpty(format))
             format = "G";
 
-        return format.ToUpperInvariant() switch {
+        return format.ToUpperInvariant() switch
+        {
             "G" => this.ToString(),
-            "C" => this.Index switch {
+            "C" => this.Index switch
+            {
                 1 => "子",
                 2 => "丑",
                 3 => "寅",
@@ -326,18 +325,6 @@ public readonly struct Dizhi :
     public static bool operator !=(Dizhi left, Dizhi right)
     {
         return left.Index != right.Index;
-    }
-    #endregion
-
-    #region serializing
-    static bool IStringConvertibleForJson<Dizhi>.FromStringForJson(string s, out Dizhi result)
-    {
-        return TryParse(s, out result);
-    }
-
-    string IStringConvertibleForJson<Dizhi>.ToStringForJson()
-    {
-        return this.ToString();
     }
     #endregion
 

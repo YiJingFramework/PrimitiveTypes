@@ -2,8 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Text;
-using System.Text.Json.Serialization;
-using YiJingFramework.PrimitiveTypes.Serialization;
 
 namespace YiJingFramework.PrimitiveTypes;
 
@@ -13,11 +11,10 @@ namespace YiJingFramework.PrimitiveTypes;
 /// A Gua, which is made up by the yin and yang lines (like trigrams and hexagrams).
 /// The lower a line, the smaller its index.
 /// </summary>
-[JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Gua>))]
 public sealed class Gua :
     IReadOnlyList<Yinyang>, IComparable<Gua>, IEquatable<Gua>,
     IParsable<Gua>, IEqualityOperators<Gua, Gua, bool>,
-    IStringConvertibleForJson<Gua>, IBitwiseOperators<Gua, Gua, Gua>
+    IBitwiseOperators<Gua, Gua, Gua>
 {
     private readonly Yinyang[] lines;
     /// <summary>
@@ -216,7 +213,8 @@ public sealed class Gua :
         List<Yinyang> r = new(s.Length);
         foreach (var c in s)
         {
-            r.Add(c switch {
+            r.Add(c switch
+            {
                 '0' => yin,
                 '1' => yang,
                 _ => throw new FormatException($"Cannot parse \"{s}\" as {nameof(Gua)}.")
@@ -345,19 +343,6 @@ public sealed class Gua :
             r[position] = new Yinyang(bitArray[position]);
 
         return new Gua(r);
-    }
-    #endregion
-
-    #region Serializing
-    static bool IStringConvertibleForJson<Gua>.FromStringForJson(
-        string s, [MaybeNullWhen(false)] out Gua result)
-    {
-        return TryParse(s, out result);
-    }
-
-    string IStringConvertibleForJson<Gua>.ToStringForJson()
-    {
-        return this.ToString();
     }
     #endregion
 
