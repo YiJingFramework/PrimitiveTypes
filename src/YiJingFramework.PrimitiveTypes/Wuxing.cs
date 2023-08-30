@@ -26,27 +26,27 @@ public sealed class Wuxing :
     /// 木。
     /// Wood.
     /// </summary>
-    public static Wuxing Wood => new Wuxing(0);
+    public static Wuxing Mu => new Wuxing(0);
     /// <summary>
     /// 火。
     /// Fire.
     /// </summary>
-    public static Wuxing Fire => new Wuxing(1);
+    public static Wuxing Huo => new Wuxing(1);
     /// <summary>
     /// 土。
     /// Earth.
     /// </summary>
-    public static Wuxing Earth => new Wuxing(2);
+    public static Wuxing Tu => new Wuxing(2);
     /// <summary>
     /// 金。
     /// Metal.
     /// </summary>
-    public static Wuxing Metal => new Wuxing(3);
+    public static Wuxing Jin => new Wuxing(3);
     /// <summary>
     /// 水。
     /// Water.
     /// </summary>
-    public static Wuxing Water => new Wuxing(4);
+    public static Wuxing Shui => new Wuxing(4);
     #endregion
 
     #region converting
@@ -55,11 +55,11 @@ public sealed class Wuxing :
     {
         return this.int32Value switch
         {
-            0 => "Wood",
-            1 => "Fire",
-            2 => "Earth",
-            3 => "Metal",
-            _ => "Water" // 4 => "Water"
+            0 => "Mu",
+            1 => "Huo",
+            2 => "Tu",
+            3 => "Jin",
+            _ => "Shui"
         };
     }
 
@@ -156,24 +156,29 @@ public sealed class Wuxing :
         switch (s?.Trim()?.ToLowerInvariant())
         {
             case "wood":
+            case "mu":
             case "木":
-                result = Wood;
+                result = Mu;
                 return true;
             case "fire":
+            case "huo":
             case "火":
-                result = Fire;
+                result = Huo;
                 return true;
             case "earth":
+            case "tu":
             case "土":
-                result = Earth;
+                result = Tu;
                 return true;
             case "metal":
+            case "jin":
             case "金":
-                result = Metal;
+                result = Jin;
                 return true;
             case "water":
+            case "shui":
             case "水":
-                result = Water;
+                result = Shui;
                 return true;
             default:
                 result = default;

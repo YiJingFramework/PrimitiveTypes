@@ -8,39 +8,39 @@ public class WuxingTests
     [TestMethod()]
     public void ConvertingTest()
     {
-        Assert.AreEqual(0, (int)Wuxing.Wood);
-        Assert.AreEqual(1, (int)Wuxing.Fire);
-        Assert.AreEqual(2, (int)Wuxing.Earth);
-        Assert.AreEqual(3, (int)Wuxing.Metal);
-        Assert.AreEqual(4, (int)Wuxing.Water);
+        Assert.AreEqual(0, (int)Wuxing.Mu);
+        Assert.AreEqual(1, (int)Wuxing.Huo);
+        Assert.AreEqual(2, (int)Wuxing.Tu);
+        Assert.AreEqual(3, (int)Wuxing.Jin);
+        Assert.AreEqual(4, (int)Wuxing.Shui);
 
-        Assert.AreEqual("Wood", Wuxing.Wood.ToString());
-        Assert.AreEqual("Fire", Wuxing.Fire.ToString());
-        Assert.AreEqual("Earth", Wuxing.Earth.ToString());
-        Assert.AreEqual("Metal", Wuxing.Metal.ToString());
-        Assert.AreEqual("Water", Wuxing.Water.ToString());
-        Assert.AreEqual("Wood", Wuxing.Wood.ToString("G"));
-        Assert.AreEqual("Fire", Wuxing.Fire.ToString(null));
-        Assert.AreEqual("木", Wuxing.Wood.ToString("C"));
-        Assert.AreEqual("火", Wuxing.Fire.ToString("C"));
-        Assert.AreEqual("土", Wuxing.Earth.ToString("C"));
-        Assert.AreEqual("金", Wuxing.Metal.ToString("C"));
-        Assert.AreEqual("水", Wuxing.Water.ToString("C"));
+        Assert.AreEqual("Mu", Wuxing.Mu.ToString());
+        Assert.AreEqual("Huo", Wuxing.Huo.ToString());
+        Assert.AreEqual("Tu", Wuxing.Tu.ToString());
+        Assert.AreEqual("Jin", Wuxing.Jin.ToString());
+        Assert.AreEqual("Shui", Wuxing.Shui.ToString());
+        Assert.AreEqual("Mu", Wuxing.Mu.ToString("G"));
+        Assert.AreEqual("Huo", Wuxing.Huo.ToString(null));
+        Assert.AreEqual("木", Wuxing.Mu.ToString("C"));
+        Assert.AreEqual("火", Wuxing.Huo.ToString("C"));
+        Assert.AreEqual("土", Wuxing.Tu.ToString("C"));
+        Assert.AreEqual("金", Wuxing.Jin.ToString("C"));
+        Assert.AreEqual("水", Wuxing.Shui.ToString("C"));
 
-        Assert.IsTrue(Wuxing.TryParse("Wood", out Wuxing r));
-        Assert.AreEqual(Wuxing.Wood, r);
-        Assert.IsTrue(Wuxing.TryParse("\t\t  Wood\r\n", out r));
-        Assert.AreEqual(Wuxing.Wood, r);
-        Assert.IsTrue(Wuxing.TryParse("Fire", out r));
-        Assert.AreEqual(Wuxing.Fire, r);
-        Assert.IsTrue(Wuxing.TryParse("\t   \t  fire\r\n", out r));
-        Assert.AreEqual(Wuxing.Fire, r);
-        Assert.IsTrue(Wuxing.TryParse("earth", out r));
-        Assert.AreEqual(Wuxing.Earth, r);
-        Assert.IsTrue(Wuxing.TryParse("Metal", out r));
-        Assert.AreEqual(Wuxing.Metal, r);
-        Assert.IsTrue(Wuxing.TryParse("  water ", out r));
-        Assert.AreEqual(Wuxing.Water, r);
+        Assert.IsTrue(Wuxing.TryParse("Mu", out var r));
+        Assert.AreEqual(Wuxing.Mu, r);
+        Assert.IsTrue(Wuxing.TryParse("\t\t  Mu\r\n", out r));
+        Assert.AreEqual(Wuxing.Mu, r);
+        Assert.IsTrue(Wuxing.TryParse("Huo", out r));
+        Assert.AreEqual(Wuxing.Huo, r);
+        Assert.IsTrue(Wuxing.TryParse("\t   \t  huo\r\n", out r));
+        Assert.AreEqual(Wuxing.Huo, r);
+        Assert.IsTrue(Wuxing.TryParse("tu", out r));
+        Assert.AreEqual(Wuxing.Tu, r);
+        Assert.IsTrue(Wuxing.TryParse("Jin", out r));
+        Assert.AreEqual(Wuxing.Jin, r);
+        Assert.IsTrue(Wuxing.TryParse("  shui ", out r));
+        Assert.AreEqual(Wuxing.Shui, r);
         Assert.IsFalse(Wuxing.TryParse("false", out _));
         Assert.IsFalse(Wuxing.TryParse(null, out _));
 
@@ -54,17 +54,17 @@ public class WuxingTests
             return T.TryParse(s, null, out result);
         }
 
-        Assert.AreEqual(Wuxing.Wood, Wuxing.Parse("Wood"));
-        Assert.AreEqual(Wuxing.Wood, Parse<Wuxing>("Wood"));
-        _ = TryParse<Wuxing>("Wood", out var p);
-        Assert.AreEqual(Wuxing.Wood, p);
+        Assert.AreEqual(Wuxing.Mu, Wuxing.Parse("Mu"));
+        Assert.AreEqual(Wuxing.Mu, Parse<Wuxing>("Mu"));
+        _ = TryParse<Wuxing>("Mu", out var p);
+        Assert.AreEqual(Wuxing.Mu, p);
 
         var allWuxing = new Wuxing[] {
-            Wuxing.Wood,
-            Wuxing.Fire,
-            Wuxing.Earth,
-            Wuxing.Metal,
-            Wuxing.Water
+            Wuxing.Mu,
+            Wuxing.Huo,
+            Wuxing.Tu,
+            Wuxing.Jin,
+            Wuxing.Shui
         };
         for (int i = -1000, j = 0; i < 1000; i++)
         {
