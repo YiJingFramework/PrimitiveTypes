@@ -37,11 +37,11 @@ public sealed class Gua :
     }
 
     /// <inheritdoc cref="Gua(ImmutableArray{Yinyang})" />
-    public Gua(params Yinyang[] yaos) 
+    public Gua(params Yinyang[] yaos)
         : this((ImmutableArray<Yinyang>)yaos?.ToImmutableArray()!) { }
 
     /// <inheritdoc cref="Gua(ImmutableArray{Yinyang})" />
-    public Gua(IEnumerable<Yinyang> yaos) 
+    public Gua(IEnumerable<Yinyang> yaos)
         : this((ImmutableArray<Yinyang>)yaos?.ToImmutableArray()!) { }
     #region Collecting
     /// <summary>
@@ -117,10 +117,10 @@ public sealed class Gua :
         unchecked
         {
             int result = 1;
-            foreach (var line in this.yaos)
+            foreach (var yao in this.yaos)
             {
                 result <<= 1;
-                result += (int)line;
+                result += (int)yao;
             }
             return result;
         }
