@@ -8,17 +8,17 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 五行。
 /// Wuxing. (The Five Elements.)
 /// </summary>
-public sealed class Wuxing :
+public readonly struct Wuxing :
     IComparable<Wuxing>, IEquatable<Wuxing>, IFormattable,
     IParsable<Wuxing>, IEqualityOperators<Wuxing, Wuxing, bool>,
     IAdditionOperators<Wuxing, int, Wuxing>,
     ISubtractionOperators<Wuxing, int, Wuxing>
 {
-    private readonly int int32Value;
-    private Wuxing(int int32ValueNotSmallerThanZero)
+    private readonly int index;
+    private Wuxing(int indexChecked)
     {
-        Debug.Assert(int32ValueNotSmallerThanZero >= 0);
-        this.int32Value = int32ValueNotSmallerThanZero % 5;
+        Debug.Assert(indexChecked is >= 0 and < 5);
+        this.index = indexChecked;
     }
 
     #region creating
@@ -53,7 +53,7 @@ public sealed class Wuxing :
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.int32Value switch
+        return this.index switch
         {
             0 => "Mu",
             1 => "Huo",
@@ -92,7 +92,7 @@ public sealed class Wuxing :
         return format.ToUpperInvariant() switch
         {
             "G" => this.ToString(),
-            "C" => this.int32Value switch
+            "C" => this.index switch
             {
                 0 => "木",
                 1 => "火",
@@ -203,27 +203,29 @@ public sealed class Wuxing :
     /// <inheritdoc/>
     public static explicit operator int(Wuxing wuxing)
     {
-        return wuxing.int32Value;
+        return wuxing.index;
     }
 
     /// <inheritdoc/>
     public static explicit operator Wuxing(int value)
     {
-        return new Wuxing(value % 5 + 5);
+        value %= 5;
+        value += 5;
+        return new Wuxing(value % 5);
     }
     #endregion
 
     #region comparing
     /// <inheritdoc/>
-    public int CompareTo(Wuxing? other)
+    public int CompareTo(Wuxing other)
     {
-        return this.int32Value.CompareTo(other?.int32Value);
+        return this.index.CompareTo(other.index);
     }
 
     /// <inheritdoc/>
-    public bool Equals(Wuxing? other)
+    public bool Equals(Wuxing other)
     {
-        return this.int32Value.Equals(other?.int32Value);
+        return this.index.Equals(other.index);
     }
 
     /// <inheritdoc/>
@@ -231,25 +233,25 @@ public sealed class Wuxing :
     {
         if (obj is not Wuxing other)
             return false;
-        return this.int32Value.Equals(other.int32Value);
+        return this.index.Equals(other.index);
     }
 
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return this.int32Value.GetHashCode();
+        return this.index.GetHashCode();
     }
 
     /// <inheritdoc/>
-    public static bool operator ==(Wuxing? left, Wuxing? right)
+    public static bool operator ==(Wuxing left, Wuxing right)
     {
-        return left?.int32Value == right?.int32Value;
+        return left.index == right.index;
     }
 
     /// <inheritdoc/>
-    public static bool operator !=(Wuxing? left, Wuxing? right)
+    public static bool operator !=(Wuxing left, Wuxing right)
     {
-        return left?.int32Value != right?.int32Value;
+        return left.index != right.index;
     }
     #endregion
 
@@ -257,15 +259,20 @@ public sealed class Wuxing :
     /// <inheritdoc/>
     public static Wuxing operator +(Wuxing left, int right)
     {
-        right = right % 5 + 5;
-        return new Wuxing(left.int32Value + right);
+        right %= 5;
+        right += 5;
+        right += left.index;
+        return new Wuxing(right % 5);
     }
 
     /// <inheritdoc/>
     public static Wuxing operator -(Wuxing left, int right)
     {
-        right = -(right % 5) + 5;
-        return new Wuxing(left.int32Value + right);
+        right %= 5;
+        right = -right;
+        right += 5;
+        right += left.index;
+        return new Wuxing(right % 5);
     }
     #endregion
 }
