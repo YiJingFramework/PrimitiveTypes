@@ -8,7 +8,7 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 五行。
 /// Wuxing. (The Five Elements.)
 /// </summary>
-public readonly struct Wuxing :
+public sealed class Wuxing :
     IComparable<Wuxing>, IEquatable<Wuxing>, IFormattable,
     IParsable<Wuxing>, IEqualityOperators<Wuxing, Wuxing, bool>,
     IAdditionOperators<Wuxing, int, Wuxing>,
@@ -26,7 +26,7 @@ public readonly struct Wuxing :
     /// 木。
     /// Wood.
     /// </summary>
-    public static Wuxing Wood => default; // => new Wuxing(0);
+    public static Wuxing Wood => new Wuxing(0);
     /// <summary>
     /// 火。
     /// Fire.
@@ -210,15 +210,15 @@ public readonly struct Wuxing :
 
     #region comparing
     /// <inheritdoc/>
-    public int CompareTo(Wuxing other)
+    public int CompareTo(Wuxing? other)
     {
-        return this.int32Value.CompareTo(other.int32Value);
+        return this.int32Value.CompareTo(other?.int32Value);
     }
 
     /// <inheritdoc/>
-    public bool Equals(Wuxing other)
+    public bool Equals(Wuxing? other)
     {
-        return this.int32Value.Equals(other.int32Value);
+        return this.int32Value.Equals(other?.int32Value);
     }
 
     /// <inheritdoc/>
@@ -236,15 +236,15 @@ public readonly struct Wuxing :
     }
 
     /// <inheritdoc/>
-    public static bool operator ==(Wuxing left, Wuxing right)
+    public static bool operator ==(Wuxing? left, Wuxing? right)
     {
-        return left.int32Value == right.int32Value;
+        return left?.int32Value == right?.int32Value;
     }
 
     /// <inheritdoc/>
-    public static bool operator !=(Wuxing left, Wuxing right)
+    public static bool operator !=(Wuxing? left, Wuxing? right)
     {
-        return left.int32Value != right.int32Value;
+        return left?.int32Value != right?.int32Value;
     }
     #endregion
 

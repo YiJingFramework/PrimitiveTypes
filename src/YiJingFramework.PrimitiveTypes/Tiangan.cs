@@ -7,7 +7,7 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 天干。
 /// Tiangan. (The Heavenly Stems.)
 /// </summary>
-public readonly struct Tiangan :
+public sealed class Tiangan :
     IComparable<Tiangan>, IEquatable<Tiangan>, IFormattable,
     IParsable<Tiangan>, IEqualityOperators<Tiangan, Tiangan, bool>,
     IAdditionOperators<Tiangan, int, Tiangan>,
@@ -272,15 +272,15 @@ public readonly struct Tiangan :
 
     #region comparing
     /// <inheritdoc/>
-    public int CompareTo(Tiangan other)
+    public int CompareTo(Tiangan? other)
     {
-        return this.Index.CompareTo(other.Index);
+        return this.Index.CompareTo(other?.Index);
     }
 
     /// <inheritdoc/>
-    public bool Equals(Tiangan other)
+    public bool Equals(Tiangan? other)
     {
-        return this.Index.Equals(other.Index);
+        return this.Index.Equals(other?.Index);
     }
 
     /// <inheritdoc/>
@@ -298,15 +298,15 @@ public readonly struct Tiangan :
     }
 
     /// <inheritdoc/>
-    public static bool operator ==(Tiangan left, Tiangan right)
+    public static bool operator ==(Tiangan? left, Tiangan? right)
     {
-        return left.Index == right.Index;
+        return left?.Index == right?.Index;
     }
 
     /// <inheritdoc/>
-    public static bool operator !=(Tiangan left, Tiangan right)
+    public static bool operator !=(Tiangan? left, Tiangan? right)
     {
-        return left.Index != right.Index;
+        return left?.Index != right?.Index;
     }
     #endregion
 

@@ -7,7 +7,7 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 地支。
 /// Dizhi. (The Earthly Branches.)
 /// </summary>
-public readonly struct Dizhi :
+public sealed class Dizhi :
     IComparable<Dizhi>, IEquatable<Dizhi>, IFormattable,
     IParsable<Dizhi>, IEqualityOperators<Dizhi, Dizhi, bool>,
     IAdditionOperators<Dizhi, int, Dizhi>,
@@ -254,7 +254,7 @@ public readonly struct Dizhi :
                 result = new Dizhi(12);
                 return true;
             default:
-                result = default;
+                result = null;
                 return false;
         }
     }
@@ -290,15 +290,15 @@ public readonly struct Dizhi :
     #region comparing
 
     /// <inheritdoc/>
-    public int CompareTo(Dizhi other)
+    public int CompareTo(Dizhi? other)
     {
-        return this.Index.CompareTo(other.Index);
+        return this.Index.CompareTo(other?.Index);
     }
 
     /// <inheritdoc/>
-    public bool Equals(Dizhi other)
+    public bool Equals(Dizhi? other)
     {
-        return this.Index.Equals(other.Index);
+        return this.Index.Equals(other?.Index);
     }
 
     /// <inheritdoc/>
@@ -316,15 +316,15 @@ public readonly struct Dizhi :
     }
 
     /// <inheritdoc/>
-    public static bool operator ==(Dizhi left, Dizhi right)
+    public static bool operator ==(Dizhi? left, Dizhi? right)
     {
-        return left.Index == right.Index;
+        return left?.Index == right?.Index;
     }
 
     /// <inheritdoc/>
-    public static bool operator !=(Dizhi left, Dizhi right)
+    public static bool operator !=(Dizhi? left, Dizhi? right)
     {
-        return left.Index != right.Index;
+        return left?.Index != right?.Index;
     }
     #endregion
 
