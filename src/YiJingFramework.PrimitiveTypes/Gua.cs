@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Text;
@@ -8,85 +9,75 @@ namespace YiJingFramework.PrimitiveTypes;
 /// <summary>
 /// 卦。
 /// 爻位置越低，序号越小。
-/// A Gua, which is made up by the yin and yang lines (like trigrams and hexagrams).
-/// The lower a line, the smaller its index.
+/// Gua.
+/// The lower the position of a Yao, the smaller its index.
 /// </summary>
 public sealed class Gua :
     IReadOnlyList<Yinyang>, IComparable<Gua>, IEquatable<Gua>,
     IParsable<Gua>, IEqualityOperators<Gua, Gua, bool>,
     IBitwiseOperators<Gua, Gua, Gua>
 {
-    private readonly Yinyang[] lines;
+    private readonly ImmutableArray<Yinyang> yaos;
     /// <summary>
     /// 创建新实例。
     /// Initializes a new instance.
     /// </summary>
-    /// <param name="lines">
+    /// <param name="yaos">
     /// 各爻的性质。
-    /// The lines' attributes.
+    /// The Yaos' attributes.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// <paramref name="lines"/> 是 <c>null</c> 。
-    /// <paramref name="lines"/> is <c>null</c>.
+    /// <paramref name="yaos"/> 是 <c>null</c> 。
+    /// <paramref name="yaos"/> is <c>null</c>.
     /// </exception>
-    public Gua(params Yinyang[] lines)
-        : this((IEnumerable<Yinyang>)lines) { }
-
-    /// <summary>
-    /// 创建新实例。
-    /// Initializes a new instance.
-    /// </summary>
-    /// <param name="lines">
-    /// 各爻的性质。
-    /// The lines' attributes.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// <paramref name="lines"/> 是 <c>null</c> 。
-    /// <paramref name="lines"/> is <c>null</c>.
-    /// </exception>
-    public Gua(IEnumerable<Yinyang> lines)
+    public Gua(ImmutableArray<Yinyang> yaos)
     {
-        ArgumentNullException.ThrowIfNull(lines);
-        this.lines = lines.ToArray();
+        ArgumentNullException.ThrowIfNull(yaos);
+        this.yaos = yaos;
     }
 
+    /// <inheritdoc cref="Gua(ImmutableArray{Yinyang})" />
+    public Gua(params Yinyang[] yaos) 
+        : this((ImmutableArray<Yinyang>)yaos?.ToImmutableArray()!) { }
+
+    /// <inheritdoc cref="Gua(ImmutableArray{Yinyang})" />
+    public Gua(IEnumerable<Yinyang> yaos) 
+        : this((ImmutableArray<Yinyang>)yaos?.ToImmutableArray()!) { }
     #region Collecting
     /// <summary>
     /// 获取某一根爻的性质。
-    /// Get the attribute of a line.
+    /// Get the attribute of a Yao.
     /// </summary>
     /// <param name="index">
     /// 爻的序号。
-    /// The index of the line.
+    /// The index of the Yao.
     /// </param>
     /// <returns>
     /// 爻的性质。
-    /// The line.
+    /// The Yao's attribute.
     /// </returns>
     /// <exception cref="IndexOutOfRangeException">
     /// <paramref name="index"/> 超出范围。
     /// <paramref name="index"/> is out of range.
     /// </exception>
-    public Yinyang this[int index]
-        => this.lines[index];
+    public Yinyang this[int index] => this.yaos[index];
 
     /// <summary>
     /// 获取爻的个数。
-    /// Get the count of the lines.
+    /// Get the count of the Yaos.
     /// </summary>
-    public int Count
-        => this.lines.Length;
+    public int Count => this.yaos.Length;
 
     /// <inheritdoc/>
     public IEnumerator<Yinyang> GetEnumerator()
     {
-        return ((IEnumerable<Yinyang>)this.lines).GetEnumerator();
+        return ((IEnumerable<Yinyang>)this.yaos).GetEnumerator();
     }
 
     /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.lines.GetEnumerator();
+        return ((IEnumerable)this.yaos).GetEnumerator();
     }
     #endregion
 
@@ -98,9 +89,9 @@ public sealed class Gua :
         if (other is null)
             return 1;
 
-        var thisLength = this.lines.Length;
+        var thisLength = this.yaos.Length;
         {
-            var otherLength = other.lines.Length;
+            var otherLength = other.yaos.Length;
             if (thisLength > otherLength)
                 return 1;
             else if (thisLength < otherLength)
@@ -109,8 +100,8 @@ public sealed class Gua :
 
         for (int i = thisLength - 1; i >= 0; i--)
         {
-            var cur = this.lines[i];
-            var com = other.lines[i];
+            var cur = this.yaos[i];
+            var com = other.yaos[i];
 
             var cr = cur.CompareTo(com);
             if (cr != 0)
@@ -126,7 +117,7 @@ public sealed class Gua :
         unchecked
         {
             int result = 1;
-            foreach (var line in this.lines)
+            foreach (var line in this.yaos)
             {
                 result <<= 1;
                 result += (int)line;
@@ -139,7 +130,7 @@ public sealed class Gua :
     public override bool Equals(object? other)
     {
         if (other is Gua gua)
-            return this.lines.SequenceEqual(gua.lines);
+            return this.yaos.SequenceEqual(gua.yaos);
         return false;
     }
 
@@ -148,7 +139,7 @@ public sealed class Gua :
     {
         if (other is null)
             return false;
-        return this.lines.SequenceEqual(other.lines);
+        return this.yaos.SequenceEqual(other.yaos);
     }
 
     /// <inheritdoc/>
@@ -158,7 +149,7 @@ public sealed class Gua :
             return right is null;
         if (right is null)
             return false;
-        return left.lines.SequenceEqual(right.lines);
+        return left.yaos.SequenceEqual(right.yaos);
     }
 
     /// <inheritdoc/>
@@ -168,7 +159,7 @@ public sealed class Gua :
             return right is not null;
         if (right is null)
             return true;
-        return !left.lines.SequenceEqual(right.lines);
+        return !left.yaos.SequenceEqual(right.yaos);
     }
     #endregion
 
@@ -176,9 +167,9 @@ public sealed class Gua :
     /// <inheritdoc/>
     public override string ToString()
     {
-        StringBuilder stringBuilder = new(this.lines.Length);
-        foreach (var line in this.lines)
-            _ = stringBuilder.Append((int)line);
+        StringBuilder stringBuilder = new(this.yaos.Length);
+        foreach (var yao in this.yaos)
+            _ = stringBuilder.Append((int)yao);
         return stringBuilder.ToString();
     }
 
@@ -206,21 +197,18 @@ public sealed class Gua :
     {
         ArgumentNullException.ThrowIfNull(s);
 
-        Yinyang yin = Yinyang.Yin;
-        Yinyang yang = Yinyang.Yang;
-
         s = s.Trim();
-        List<Yinyang> r = new(s.Length);
+        var r = ImmutableArray.CreateBuilder<Yinyang>(s.Length);
         foreach (var c in s)
         {
             r.Add(c switch
             {
-                '0' => yin,
-                '1' => yang,
+                '0' => Yinyang.Yin,
+                '1' => Yinyang.Yang,
                 _ => throw new FormatException($"Cannot parse \"{s}\" as {nameof(Gua)}.")
             });
         }
-        return new(r);
+        return new(r.MoveToImmutable());
     }
 
     /// <summary>
@@ -249,27 +237,24 @@ public sealed class Gua :
             return false;
         }
 
-        Yinyang yin = Yinyang.Yin;
-        Yinyang yang = Yinyang.Yang;
-
         s = s.Trim();
-        List<Yinyang> r = new(s.Length);
+        var r = ImmutableArray.CreateBuilder<Yinyang>(s.Length);
         foreach (var c in s)
         {
             switch (c)
             {
                 case '0':
-                    r.Add(yin);
+                    r.Add(Yinyang.Yin);
                     break;
                 case '1':
-                    r.Add(yang);
+                    r.Add(Yinyang.Yang);
                     break;
                 default:
                     result = null;
                     return false;
             }
         }
-        result = new Gua(r);
+        result = new Gua(r.MoveToImmutable());
         return true;
     }
 
@@ -299,10 +284,10 @@ public sealed class Gua :
     /// </returns>
     public byte[] ToBytes()
     {
-        var thisLength = this.lines.Length;
+        var thisLength = this.yaos.Length;
         BitArray bitArray = new(thisLength + 1);
         for (int i = 0; i < thisLength; i++)
-            bitArray.Set(i, (bool)this.lines[i]);
+            bitArray.Set(i, (bool)this.yaos[i]);
         bitArray.Set(thisLength, true);
         byte[] bytes = new byte[(bitArray.Length + 7) / 8];
         bitArray.CopyTo(bytes, 0);
@@ -330,28 +315,27 @@ public sealed class Gua :
         ArgumentNullException.ThrowIfNull(bytes);
 
         BitArray bitArray = new(bytes);
-        int position = bitArray.Length - 1;
 
+        int position = bitArray.Length - 1;
         for (; position >= 0; position--)
         {
             if (bitArray[position])
                 break;
         }
 
-        Yinyang[] r = new Yinyang[position];
-        for (position--; position >= 0; position--)
-            r[position] = new Yinyang(bitArray[position]);
-
+        var r = ImmutableArray.CreateBuilder<Yinyang>(position);
+        for (int i = 0; i < position; i++)
+            r.Add(new(bitArray[i]));
         return new Gua(r);
     }
     #endregion
 
     #region calculating
-    /// <inheritdoc/>
     /// <exception cref="ArithmeticException">
     /// 两个卦的爻数不同。
     /// Count of the two Guas are not equal.
     /// </exception>
+    /// <inheritdoc/>
     public static Gua operator &(Gua left, Gua right)
     {
         static IEnumerable<Yinyang> Calculate(Gua g1, Gua g2)
@@ -366,11 +350,11 @@ public sealed class Gua :
         return new Gua(Calculate(left, right));
     }
 
-    /// <inheritdoc/>
     /// <exception cref="ArithmeticException">
     /// 两个卦的爻数不同。
     /// Count of the two Guas are not equal.
     /// </exception>
+    /// <inheritdoc />
     public static Gua operator |(Gua left, Gua right)
     {
         static IEnumerable<Yinyang> Calculate(Gua g1, Gua g2)
@@ -385,11 +369,11 @@ public sealed class Gua :
         return new Gua(Calculate(left, right));
     }
 
-    /// <inheritdoc/>
     /// <exception cref="ArithmeticException">
     /// 两个卦的爻数不同。
     /// Count of the two Guas are not equal.
     /// </exception>
+    /// <inheritdoc />
     public static Gua operator ^(Gua left, Gua right)
     {
         static IEnumerable<Yinyang> Calculate(Gua g1, Gua g2)
@@ -404,7 +388,7 @@ public sealed class Gua :
         return new Gua(Calculate(left, right));
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public static Gua operator ~(Gua gua)
     {
         static IEnumerable<Yinyang> Calculate(Gua g)
