@@ -8,19 +8,19 @@ public class DizhiTests
     [TestMethod()]
     public void ConvertingTest()
     {
-        Assert.AreEqual(1, (int)Dizhi.Zi);
-        Assert.AreEqual(4, (int)Dizhi.Mao);
-        Assert.AreEqual(2, (int)(Dizhi)14);
+        Assert.AreEqual(1, Dizhi.Zi.Index);
+        Assert.AreEqual(4, Dizhi.Mao.Index);
+        Assert.AreEqual(2, Dizhi.FromIndex(14).Index);
 
         Assert.AreEqual("Yin", Dizhi.Yin.ToString());
         Assert.AreEqual("未", Dizhi.Wei.ToString("C"));
 
-        Assert.AreEqual("Hai", ((Dizhi)0).ToString());
-        Assert.AreEqual("You", ((Dizhi)(-2)).ToString());
+        Assert.AreEqual("Hai", Dizhi.FromIndex(0).ToString());
+        Assert.AreEqual("You", Dizhi.FromIndex(-2).ToString());
 
         for (int i = -1007, j = 1; i < 1000; i++)
         {
-            Assert.AreEqual((Dizhi)j, (Dizhi)i);
+            Assert.AreEqual(Dizhi.FromIndex(j), Dizhi.FromIndex(i));
             j++;
             if (j == 13)
                 j = 1;
@@ -42,10 +42,10 @@ public class DizhiTests
         Assert.AreEqual(Dizhi.Wei, p);
 
         Assert.AreEqual(Dizhi.Hai, Dizhi.Zi.Next(12 + 11));
-        Assert.AreEqual((Dizhi)(11), Dizhi.Zi.Next(-2));
+        Assert.AreEqual(Dizhi.Xu, Dizhi.Zi.Next(-2));
 
-        Assert.AreEqual((Dizhi)(1) + 15, (Dizhi)(4));
-        Assert.AreEqual((Dizhi)(1) - 15, (Dizhi)(10));
+        Assert.AreEqual(Dizhi.Mao, Dizhi.Zi + 15);
+        Assert.AreEqual(Dizhi.You, Dizhi.Zi - 15);
     }
 
     [TestMethod()]
@@ -56,8 +56,8 @@ public class DizhiTests
         {
             var fir = r.Next(1, 13);
             var sec = r.Next(1, 13);
-            var firF = (Dizhi)fir;
-            var secF = (Dizhi)sec;
+            var firF = Dizhi.FromIndex(fir);
+            var secF = Dizhi.FromIndex(sec);
             if (fir == sec)
             {
                 Assert.AreEqual(0, firF.CompareTo(secF));

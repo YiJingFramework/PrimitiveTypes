@@ -251,20 +251,51 @@ public readonly struct Dizhi :
         return TryParse(s, out result);
     }
 
-
     /// <inheritdoc/>
+    [Obsolete(
+        "Behavior of the operator will be changed in later versions. " +
+        "Use the property Dizhi.Index if you want the current result.")]
     public static explicit operator int(Dizhi dizhi)
     {
         return dizhi.index + 1;
     }
 
-
     /// <inheritdoc/>
+    [Obsolete(
+        "Behavior of the operator will be changed in later versions. " +
+        "Use the method Dizhi.FromIndex(int) if you want the current result.")]
     public static explicit operator Dizhi(int value)
     {
         value %= 12;
         value += 12 - 1;
         return new Dizhi(value % 12);
+    }
+
+    /// <summary>
+    /// 获取地支的序数。
+    /// 以子为 <c>1</c> ，直到亥为 <c>12</c> 。
+    /// Get the index of the Dizhi.
+    /// For example, it will be <c>1</c> for Zi and <c>12</c> for Hai.
+    /// </summary>
+    public int Index => this.index + 1;
+
+    /// <summary>
+    /// 从 <seealso cref="Index"/> 获取地支。
+    /// The a Dizhi from its <seealso cref="Index"/>.
+    /// </summary>
+    /// <param name="index">
+    /// 序数。
+    /// The index.
+    /// </param>
+    /// <returns>
+    /// 地支。
+    /// The Dizhi.
+    /// </returns>
+    public static Dizhi FromIndex(int index)
+    {
+        index %= 12;
+        index += 12 - 1;
+        return new Dizhi(index % 12);
     }
     #endregion
 

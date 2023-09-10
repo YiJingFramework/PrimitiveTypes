@@ -8,19 +8,19 @@ public class TianganTests
     [TestMethod()]
     public void ConvertingTest()
     {
-        Assert.AreEqual(1, (int)Tiangan.Jia);
-        Assert.AreEqual(4, (int)Tiangan.Ding);
-        Assert.AreEqual(2, (int)(Tiangan)12);
+        Assert.AreEqual(1, Tiangan.Jia.Index);
+        Assert.AreEqual(4, Tiangan.Ding.Index);
+        Assert.AreEqual(2, Tiangan.FromIndex(12).Index);
 
         Assert.AreEqual("Bing", Tiangan.Bing.ToString());
         Assert.AreEqual("辛", Tiangan.Xin.ToString("C"));
 
-        Assert.AreEqual("Gui", ((Tiangan)0).ToString());
-        Assert.AreEqual("Xin", ((Tiangan)(-2)).ToString());
+        Assert.AreEqual("Gui", Tiangan.FromIndex(0).ToString());
+        Assert.AreEqual("Xin", Tiangan.FromIndex(-2).ToString());
 
         for (int i = -999, j = 1; i < 1000; i++)
         {
-            Assert.AreEqual((Tiangan)j, (Tiangan)i);
+            Assert.AreEqual(Tiangan.FromIndex(j), Tiangan.FromIndex(i));
             j++;
             if (j == 11)
                 j = 1;
@@ -42,11 +42,11 @@ public class TianganTests
         Assert.AreEqual(Tiangan.Ding, p);
 
 
-        Assert.AreEqual((Tiangan)4, ((Tiangan)(1)).Next(10 + 3));
-        Assert.AreEqual((Tiangan)9, ((Tiangan)(1)).Next(-2));
+        Assert.AreEqual(Tiangan.Ding, Tiangan.Jia.Next(10 + 3));
+        Assert.AreEqual(Tiangan.Ren, Tiangan.Jia.Next(-2));
 
-        Assert.AreEqual((Tiangan)(6), ((Tiangan)(1)) + 15);
-        Assert.AreEqual((Tiangan)(6), ((Tiangan)(1)) - 15);
+        Assert.AreEqual(Tiangan.Ji, Tiangan.Jia + 15);
+        Assert.AreEqual(Tiangan.Ji, Tiangan.Jia - 15);
     }
 
     [TestMethod()]
@@ -57,8 +57,8 @@ public class TianganTests
         {
             var fir = r.Next(1, 11);
             var sec = r.Next(1, 11);
-            var firF = (Tiangan)fir;
-            var secF = (Tiangan)sec;
+            var firF = Tiangan.FromIndex(fir);
+            var secF = Tiangan.FromIndex(sec);
             if (fir == sec)
             {
                 Assert.AreEqual(0, firF.CompareTo(secF));

@@ -240,17 +240,50 @@ public readonly struct Tiangan :
     }
 
     /// <inheritdoc/>
+    [Obsolete(
+        "Behavior of the operator will be changed in later versions. " +
+        "Use the property Tiangan.Index if you want the current result.")]
     public static explicit operator int(Tiangan tiangan)
     {
         return tiangan.index + 1;
     }
 
     /// <inheritdoc/>
+    [Obsolete(
+        "Behavior of the operator will be changed in later versions. " +
+        "Use the method Tiangan.FromIndex(int) if you want the current result.")]
     public static explicit operator Tiangan(int value)
     {
         value %= 10;
         value += 10 - 1;
         return new Tiangan(value % 10);
+    }
+
+    /// <summary>
+    /// 获取天干的序数。
+    /// 以甲为 <c>1</c> ，直到癸为 <c>10</c> 。
+    /// Get the index of the Tiangan.
+    /// For example, it will be <c>1</c> for Jia and <c>10</c> for Gui.
+    /// </summary>
+    public int Index => this.index + 1;
+
+    /// <summary>
+    /// 从 <seealso cref="Index"/> 获取天干。
+    /// The a Tiangan from its <seealso cref="Index"/>.
+    /// </summary>
+    /// <param name="index">
+    /// 序数。
+    /// The index.
+    /// </param>
+    /// <returns>
+    /// 天干。
+    /// The Tiangan.
+    /// </returns>
+    public static Tiangan FromIndex(int index)
+    {
+        index %= 10;
+        index += 10 - 1;
+        return new Tiangan(index % 10);
     }
     #endregion
 
