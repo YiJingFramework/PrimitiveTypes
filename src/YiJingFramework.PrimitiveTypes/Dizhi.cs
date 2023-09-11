@@ -252,22 +252,16 @@ public readonly struct Dizhi :
     }
 
     /// <inheritdoc/>
-    [Obsolete(
-        "Behavior of the operator will be changed in later versions. " +
-        "Use the property Dizhi.Index if you want the current result.")]
     public static explicit operator int(Dizhi dizhi)
     {
-        return dizhi.index + 1;
+        return dizhi.index;
     }
 
     /// <inheritdoc/>
-    [Obsolete(
-        "Behavior of the operator will be changed in later versions. " +
-        "Use the method Dizhi.FromIndex(int) if you want the current result.")]
     public static explicit operator Dizhi(int value)
     {
         value %= 12;
-        value += 12 - 1;
+        value += 12;
         return new Dizhi(value % 12);
     }
 

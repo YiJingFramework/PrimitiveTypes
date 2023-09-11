@@ -240,22 +240,16 @@ public readonly struct Tiangan :
     }
 
     /// <inheritdoc/>
-    [Obsolete(
-        "Behavior of the operator will be changed in later versions. " +
-        "Use the property Tiangan.Index if you want the current result.")]
     public static explicit operator int(Tiangan tiangan)
     {
-        return tiangan.index + 1;
+        return tiangan.index;
     }
 
     /// <inheritdoc/>
-    [Obsolete(
-        "Behavior of the operator will be changed in later versions. " +
-        "Use the method Tiangan.FromIndex(int) if you want the current result.")]
     public static explicit operator Tiangan(int value)
     {
         value %= 10;
-        value += 10 - 1;
+        value += 10;
         return new Tiangan(value % 10);
     }
 

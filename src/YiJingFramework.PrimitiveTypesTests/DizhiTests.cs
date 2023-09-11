@@ -20,10 +20,14 @@ public class DizhiTests
 
         for (int i = -1007, j = 1; i < 1000; i++)
         {
-            Assert.AreEqual(Dizhi.FromIndex(j), Dizhi.FromIndex(i));
+            var dizhi = Dizhi.FromIndex(i);
+            Assert.AreEqual(Dizhi.FromIndex(j), dizhi);
             j++;
             if (j == 13)
                 j = 1;
+
+            Assert.AreEqual(dizhi.Index - 1, (int)dizhi);
+            Assert.AreEqual(dizhi.Next(), (Dizhi)i);
         }
 
         T Parse<T>(string s) where T : IParsable<T>

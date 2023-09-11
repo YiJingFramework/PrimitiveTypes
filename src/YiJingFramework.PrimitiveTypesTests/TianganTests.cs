@@ -20,10 +20,14 @@ public class TianganTests
 
         for (int i = -999, j = 1; i < 1000; i++)
         {
-            Assert.AreEqual(Tiangan.FromIndex(j), Tiangan.FromIndex(i));
+            var tiangan = Tiangan.FromIndex(i);
+            Assert.AreEqual(Tiangan.FromIndex(j), tiangan);
             j++;
             if (j == 11)
                 j = 1;
+
+            Assert.AreEqual(tiangan.Index - 1, (int)tiangan);
+            Assert.AreEqual(tiangan.Next(), (Tiangan)i);
         }
 
         T Parse<T>(string s) where T : IParsable<T>
