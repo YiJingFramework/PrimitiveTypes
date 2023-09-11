@@ -14,11 +14,11 @@ public readonly struct Dizhi :
     IAdditionOperators<Dizhi, int, Dizhi>,
     ISubtractionOperators<Dizhi, int, Dizhi>
 {
-    private readonly int index;
-    private Dizhi(int indexChecked)
+    private readonly int indexMinusOne;
+    private Dizhi(int indexMinusOneChecked)
     {
-        Debug.Assert(indexChecked is >= 0 and < 12);
-        this.index = indexChecked;
+        Debug.Assert(indexMinusOneChecked is >= 0 and < 12);
+        this.indexMinusOne = indexMinusOneChecked;
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public readonly struct Dizhi :
     {
         n %= 12;
         n += 12;
-        n += this.index;
+        n += this.indexMinusOne;
         return new Dizhi(n % 12);
     }
 
@@ -48,7 +48,7 @@ public readonly struct Dizhi :
     {
         right %= 12;
         right += 12;
-        right += left.index;
+        right += left.indexMinusOne;
         return new Dizhi(right % 12);
     }
 
@@ -58,7 +58,7 @@ public readonly struct Dizhi :
         right %= 12;
         right = -right;
         right += 12;
-        right += left.index;
+        right += left.indexMinusOne;
         return new Dizhi(right % 12);
     }
 
@@ -67,7 +67,7 @@ public readonly struct Dizhi :
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.index switch
+        return this.indexMinusOne switch
         {
             0 => "Zi",
             1 => "Chou",
@@ -114,7 +114,7 @@ public readonly struct Dizhi :
         return format.ToUpperInvariant() switch
         {
             "G" => this.ToString(),
-            "C" => this.index switch
+            "C" => this.indexMinusOne switch
             {
                 0 => "子",
                 1 => "丑",
@@ -254,7 +254,7 @@ public readonly struct Dizhi :
     /// <inheritdoc/>
     public static explicit operator int(Dizhi dizhi)
     {
-        return dizhi.index;
+        return dizhi.indexMinusOne;
     }
 
     /// <inheritdoc/>
@@ -271,7 +271,7 @@ public readonly struct Dizhi :
     /// Get the index of the Dizhi.
     /// For example, it will be <c>1</c> for Zi and <c>12</c> for Hai.
     /// </summary>
-    public int Index => this.index + 1;
+    public int Index => this.indexMinusOne + 1;
 
     /// <summary>
     /// 从 <seealso cref="Index"/> 获取地支。
@@ -298,13 +298,13 @@ public readonly struct Dizhi :
     /// <inheritdoc/>
     public int CompareTo(Dizhi other)
     {
-        return this.index.CompareTo(other.index);
+        return this.indexMinusOne.CompareTo(other.indexMinusOne);
     }
 
     /// <inheritdoc/>
     public bool Equals(Dizhi other)
     {
-        return this.index.Equals(other.index);
+        return this.indexMinusOne.Equals(other.indexMinusOne);
     }
 
     /// <inheritdoc/>
@@ -312,25 +312,25 @@ public readonly struct Dizhi :
     {
         if (obj is not Dizhi other)
             return false;
-        return this.index.Equals(other.index);
+        return this.indexMinusOne.Equals(other.indexMinusOne);
     }
 
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return this.index.GetHashCode();
+        return this.indexMinusOne.GetHashCode();
     }
 
     /// <inheritdoc/>
     public static bool operator ==(Dizhi left, Dizhi right)
     {
-        return left.index == right.index;
+        return left.indexMinusOne == right.indexMinusOne;
     }
 
     /// <inheritdoc/>
     public static bool operator !=(Dizhi left, Dizhi right)
     {
-        return left.index != right.index;
+        return left.indexMinusOne != right.indexMinusOne;
     }
     #endregion
 

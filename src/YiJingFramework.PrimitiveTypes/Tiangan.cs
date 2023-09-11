@@ -14,12 +14,12 @@ public readonly struct Tiangan :
     IAdditionOperators<Tiangan, int, Tiangan>,
     ISubtractionOperators<Tiangan, int, Tiangan>
 {
-    private readonly int index;
+    private readonly int indexMinusOne;
 
-    private Tiangan(int indexChecked)
+    private Tiangan(int indexMinusOneChecked)
     {
-        Debug.Assert(indexChecked is >= 0 and < 10);
-        this.index = indexChecked;
+        Debug.Assert(indexMinusOneChecked is >= 0 and < 10);
+        this.indexMinusOne = indexMinusOneChecked;
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public readonly struct Tiangan :
     {
         n %= 10;
         n += 10;
-        n += this.index;
+        n += this.indexMinusOne;
         return new Tiangan(n % 10);
     }
 
@@ -49,7 +49,7 @@ public readonly struct Tiangan :
     {
         right %= 10;
         right += 10;
-        right += left.index;
+        right += left.indexMinusOne;
         return new Tiangan(right % 10);
     }
 
@@ -59,7 +59,7 @@ public readonly struct Tiangan :
         right %= 10;
         right = -right;
         right += 10;
-        right += left.index;
+        right += left.indexMinusOne;
         return new Tiangan(right % 10);
     }
 
@@ -67,7 +67,7 @@ public readonly struct Tiangan :
     /// <inheritdoc/>
     public override string ToString()
     {
-        return this.index switch
+        return this.indexMinusOne switch
         {
             0 => "Jia",
             1 => "Yi",
@@ -112,7 +112,7 @@ public readonly struct Tiangan :
         return format.ToUpperInvariant() switch
         {
             "G" => this.ToString(),
-            "C" => this.index switch
+            "C" => this.indexMinusOne switch
             {
                 0 => "甲",
                 1 => "乙",
@@ -242,7 +242,7 @@ public readonly struct Tiangan :
     /// <inheritdoc/>
     public static explicit operator int(Tiangan tiangan)
     {
-        return tiangan.index;
+        return tiangan.indexMinusOne;
     }
 
     /// <inheritdoc/>
@@ -259,7 +259,7 @@ public readonly struct Tiangan :
     /// Get the index of the Tiangan.
     /// For example, it will be <c>1</c> for Jia and <c>10</c> for Gui.
     /// </summary>
-    public int Index => this.index + 1;
+    public int Index => this.indexMinusOne + 1;
 
     /// <summary>
     /// 从 <seealso cref="Index"/> 获取天干。
@@ -285,13 +285,13 @@ public readonly struct Tiangan :
     /// <inheritdoc/>
     public int CompareTo(Tiangan other)
     {
-        return this.index.CompareTo(other.index);
+        return this.indexMinusOne.CompareTo(other.indexMinusOne);
     }
 
     /// <inheritdoc/>
     public bool Equals(Tiangan other)
     {
-        return this.index.Equals(other.index);
+        return this.indexMinusOne.Equals(other.indexMinusOne);
     }
 
     /// <inheritdoc/>
@@ -299,25 +299,25 @@ public readonly struct Tiangan :
     {
         if (obj is not Tiangan other)
             return false;
-        return this.index.Equals(other.index);
+        return this.indexMinusOne.Equals(other.indexMinusOne);
     }
 
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return this.index.GetHashCode();
+        return this.indexMinusOne.GetHashCode();
     }
 
     /// <inheritdoc/>
     public static bool operator ==(Tiangan left, Tiangan right)
     {
-        return left.index == right.index;
+        return left.indexMinusOne == right.indexMinusOne;
     }
 
     /// <inheritdoc/>
     public static bool operator !=(Tiangan left, Tiangan right)
     {
-        return left.index != right.index;
+        return left.indexMinusOne != right.indexMinusOne;
     }
     #endregion
 
