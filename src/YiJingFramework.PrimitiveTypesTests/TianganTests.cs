@@ -51,6 +51,10 @@ public class TianganTests
 
         Assert.AreEqual(Tiangan.Ji, Tiangan.Jia + 15);
         Assert.AreEqual(Tiangan.Ji, Tiangan.Jia - 15);
+
+        Assert.AreEqual(1, Tiangan.Yi - Tiangan.Jia);
+        Assert.AreEqual(0, Tiangan.Jia - Tiangan.Jia);
+        Assert.AreEqual(9, Tiangan.Jia - Tiangan.Yi);
     }
 
     [TestMethod()]

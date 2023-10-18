@@ -62,6 +62,11 @@ public readonly struct Dizhi :
         return new Dizhi(right % 12);
     }
 
+    /// <inheritdoc/>
+    public static int operator -(Dizhi left, Dizhi right)
+    {
+        return (left.indexMinusOne - right.indexMinusOne + 12) % 12;
+    }
     #region converting
 
     /// <inheritdoc/>

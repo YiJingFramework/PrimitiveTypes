@@ -63,6 +63,12 @@ public readonly struct Tiangan :
         return new Tiangan(right % 10);
     }
 
+    /// <inheritdoc/>
+    public static int operator -(Tiangan left, Tiangan right)
+    {
+        return (left.indexMinusOne - right.indexMinusOne + 10) % 10;
+    }
+
     #region converting
     /// <inheritdoc/>
     public override string ToString()

@@ -50,6 +50,10 @@ public class DizhiTests
 
         Assert.AreEqual(Dizhi.Mao, Dizhi.Zi + 15);
         Assert.AreEqual(Dizhi.You, Dizhi.Zi - 15);
+
+        Assert.AreEqual(1, Dizhi.Chou - Dizhi.Zi);
+        Assert.AreEqual(0, Dizhi.Zi - Dizhi.Zi);
+        Assert.AreEqual(11, Dizhi.Zi - Dizhi.Chou);
     }
 
     [TestMethod()]
