@@ -7,25 +7,22 @@ namespace YiJingFramework.PrimitiveTypes;
 /// 阴阳。
 /// Yinyang.
 /// </summary>
-public readonly struct Yinyang :
+/// <param name="isYang">
+/// 若值为 <c>true</c> ，则此实例将表示阳；否则表示阴。
+/// If the value is <c>true</c>, the instance will represents Yang; otherwise, Yin.
+/// </param>
+public readonly struct Yinyang(bool isYang) :
     IComparable<Yinyang>, IEquatable<Yinyang>, IFormattable,
     IParsable<Yinyang>, IEqualityOperators<Yinyang, Yinyang, bool>,
     IBitwiseOperators<Yinyang, Yinyang, Yinyang>
 {
-    #region creating
     /// <summary>
-    /// 创建新实例。
-    /// Initializes a new instance.
+    /// 获取此实例是否表示阳。
+    /// Get whether the instance represents Yang.
     /// </summary>
-    /// <param name="isYang">
-    /// 若值为 <c>true</c> ，则此实例将表示阳；否则表示阴。
-    /// If the value is <c>true</c>, the instance will represents Yang; otherwise, Yin.
-    /// </param>
-    public Yinyang(bool isYang)
-    {
-        this.IsYang = isYang;
-    }
+    public bool IsYang { get; } = isYang;
 
+    #region creating
     /// <summary>
     /// 阳。
     /// Yang.
@@ -72,12 +69,6 @@ public readonly struct Yinyang :
     #endregion
 
     #region converting
-    /// <summary>
-    /// 获取此实例是否表示阳。
-    /// Get whether the instance represents Yang.
-    /// </summary>
-    public bool IsYang { get; }
-
     /// <inheritdoc/>
     public override string ToString()
     {

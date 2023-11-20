@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Text;
+using YiJingFramework.PrimitiveTypes.Extensions;
 
 namespace YiJingFramework.PrimitiveTypes;
 
@@ -12,37 +13,25 @@ namespace YiJingFramework.PrimitiveTypes;
 /// Gua.
 /// The lower the position of a Yao, the smaller its index.
 /// </summary>
-public sealed class Gua :
+/// <param name="yaos">
+/// 各爻的性质。
+/// The Yaos' attributes.
+/// </param>
+public sealed class Gua(ImmutableArray<Yinyang> yaos) :
     IReadOnlyList<Yinyang>, IComparable<Gua>, IEquatable<Gua>,
     IParsable<Gua>, IEqualityOperators<Gua, Gua, bool>,
     IBitwiseOperators<Gua, Gua, Gua>
 {
-    private readonly ImmutableArray<Yinyang> yaos;
-    /// <summary>
-    /// 创建新实例。
-    /// Initializes a new instance.
-    /// </summary>
-    /// <param name="yaos">
-    /// 各爻的性质。
-    /// The Yaos' attributes.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// <paramref name="yaos"/> 是 <c>null</c> 。
-    /// <paramref name="yaos"/> is <c>null</c>.
-    /// </exception>
-    public Gua(ImmutableArray<Yinyang> yaos)
-    {
-        ArgumentNullException.ThrowIfNull(yaos);
-        this.yaos = yaos;
-    }
+    private readonly ImmutableArray<Yinyang> yaos = yaos;
 
     /// <inheritdoc cref="Gua(ImmutableArray{Yinyang})" />
+    /// <exception cref="ArgumentNullException"></exception>
     public Gua(params Yinyang[] yaos)
-        : this((ImmutableArray<Yinyang>)yaos?.ToImmutableArray()!) { }
+        : this(yaos.ThrowIfNull().ToImmutableArray()) { }
 
     /// <inheritdoc cref="Gua(ImmutableArray{Yinyang})" />
     public Gua(IEnumerable<Yinyang> yaos)
-        : this((ImmutableArray<Yinyang>)yaos?.ToImmutableArray()!) { }
+        : this(yaos.ThrowIfNull().ToImmutableArray()) { }
     #region Collecting
     /// <summary>
     /// 获取某一根爻的性质。

@@ -12,7 +12,7 @@ public class GuaTests
     }
     private static Yinyang[] GetLinesOfGua1()
     {
-        return new Yinyang[] { Yinyang.Yang, Yinyang.Yang, Yinyang.Yin };
+        return [Yinyang.Yang, Yinyang.Yang, Yinyang.Yin];
     }
     private static Gua GetGua1()
     {
@@ -107,12 +107,12 @@ public class GuaTests
         for (int i = 0; i < 20;)
         {
             var c = random.Next(5, 10);
-            List<Yinyang> lines1 = new();
+            List<Yinyang> lines1 = [];
             for (int j = 0; j < c; j++)
             {
                 lines1.Add((Yinyang)random.Next(0, 2));
             }
-            List<Yinyang> lines2 = new();
+            List<Yinyang> lines2 = [];
             for (int j = 0; j < c; j++)
             {
                 lines2.Add((Yinyang)random.Next(0, 2));
@@ -137,12 +137,12 @@ public class GuaTests
         for (int i = 0; i < 20;)
         {
             var c = random.Next(5, 10);
-            List<Yinyang> lines1 = new();
+            List<Yinyang> lines1 = [];
             for (int j = 0; j < c; j++)
             {
                 lines1.Add((Yinyang)random.Next(0, 2));
             }
-            List<Yinyang> lines2 = new();
+            List<Yinyang> lines2 = [];
             for (int j = 0; j < c; j++)
             {
                 lines2.Add((Yinyang)random.Next(0, 2));
@@ -182,7 +182,7 @@ public class GuaTests
         for (int i = 0; i < 20; i++)
         {
             var c = random.Next(0, 100);
-            List<Yinyang> lines1 = new();
+            List<Yinyang> lines1 = [];
             for (int j = 0; j < c; j++)
                 lines1.Add((Yinyang)random.Next(0, 2));
             var gua = new Gua(lines1);
@@ -206,7 +206,7 @@ public class GuaTests
         for (int i = 0; i < 20; i++)
         {
             var c = random.Next(0, 100);
-            List<Yinyang> lines1 = new();
+            List<Yinyang> lines1 = [];
             for (int j = 0; j < c; j++)
                 lines1.Add((Yinyang)random.Next(0, 2));
             var gua = new Gua(lines1);
@@ -244,7 +244,7 @@ public class GuaTests
         for (int i = 0; i < 20; i++)
         {
             var c = random.Next(0, 100);
-            List<Yinyang> lines1 = new();
+            List<Yinyang> lines1 = [];
             for (int j = 0; j < c; j++)
                 lines1.Add((Yinyang)random.Next(0, 2));
             var gua = new Gua(lines1);
@@ -276,12 +276,12 @@ public class GuaTests
         for (int i = 0; i < 20;)
         {
             var c = random.Next(5, 10);
-            List<Yinyang> lines1 = new();
+            List<Yinyang> lines1 = [];
             for (int j = 0; j < c; j++)
             {
                 lines1.Add((Yinyang)random.Next(0, 2));
             }
-            List<Yinyang> lines2 = new();
+            List<Yinyang> lines2 = [];
             for (int j = 0; j < c; j++)
             {
                 lines2.Add((Yinyang)random.Next(0, 2));
